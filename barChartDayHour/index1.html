@@ -69,16 +69,27 @@
 			top: 100%;
 			left: 0;
 		}
+
+.checkboxs{
+	padding:5px;
+}		
 </style>
 
 </head>
 <body>
 
 	<div class="container">
-
+		<div class = "checkboxs" id="checkboxs">
+			<input type="checkbox" name="Mon" value="Mon" checked onchange="selectCheckBox(this)">Mon
+			<input type="checkbox" name="Tue" value="Tue" checked onchange="selectCheckBox(this)">Tue
+			<input type="checkbox" name="Wed" value="Wed" checked onchange="selectCheckBox(this)">Wed
+			<input type="checkbox" name="Thu" value="Thu" checked onchange="selectCheckBox(this)">Thu
+			<input type="checkbox" name="Fri" value="Fri" checked onchange="selectCheckBox(this)">Fri
+			<input type="checkbox" name="Sat" value="Sat" checked onchange="selectCheckBox(this)">Sat
+			<input type="checkbox" name="Sun" value="Sun" checked onchange="selectCheckBox(this)">Sun
+		</div>	
 		<!-- Parent container for the visualization -->
 		<div id="chart-area1"></div>
-		<div id="chart-area2"></div>
 
 	</div>
 
@@ -90,5 +101,6 @@
 
 	<!-- Your implementation -->
 	<script src="js/daily.js"></script>
+	<script src="js/checkbox.js"></script>
 </body>
 </html>

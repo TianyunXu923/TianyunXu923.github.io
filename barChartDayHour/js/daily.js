@@ -114,12 +114,25 @@ var svg = d3.select("#chart-area1").append("svg")
 x.domain(allData.map(function(d){return d[0];}));
 y.domain([0, d3.max(allData, function(d){return d[1];})]);
 
+var dayId = 0;
+var IdArray = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
 svg.selectAll(".bar")
 	.data(allData)
 	.enter()
 	.append("rect")
 	.attr("class", function(d,index){
 		return index+" bar";
+	})
+	.attr("id", function(d, index){
+		var assignId = IdArray[dayId];
+		if(dayId != 6){
+			dayId ++;
+		}
+		else{
+			dayId = 0;
+		}
+		return assignId;
 	})
 	.attr("x", function(d){
 		//console.log(d3.time.format('%m-%d')(new Date(d[0])));
@@ -242,8 +255,24 @@ svg2.selectAll(".bar2")
         .on("mouseover", tip2.show)
         .on("mouseout", tip2.hide);
 
+//checkbox.js
 
-//svg2.selectAll(".bar2").exit();
+function selectCheckBox(checkbox){
+	//console.log(checkbox);
+	//console.log(checkbox.checked);
+	var value = checkbox.value;
+
+	if(checkbox.checked){
+		check(svg, value);
+		
+	}
+	else{
+		uncheck(svg,value);
+	}
+	//checkBox(svg,checkbox);
+
+
+}
 
 function updateHourlyData(data){
 	svg2.selectAll(".bar2").remove();
