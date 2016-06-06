@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ABEJA</title>
+<style>
+.bar{
+	fill: #FFD801;
+}
+
+.bar:hover{
+	fill:#FFA62F;
+}
+
+.bar2{
+	fill: #617C58;
+}
+
+.bar2:hover{
+	fill: #008080;
+}
+.axis text{
+	font: 10px sans-serif;
+}
+
+.axis path,
+.axis line{
+	fill: none;
+ 	stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.tooltip-title {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: 600;
+		}
+
+.d3-tip {
+			line-height: 1;
+			padding: 8px;
+			/*background: rgba(249, 167, 176, 0.5);*/
+			background: rgba(46, 137, 255, 0.6);
+			color: #fff;
+			border-radius: 2px;
+			margin: -10px 0 0 0;
+
+		}
+
+		/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+			box-sizing: border-box;
+			display: inline;
+			font-size: 10px;
+			width: 100%;
+			line-height: 1;
+			/*color: rgba(249, 167, 176, 0.5);*/
+			color: rgba(46, 137, 255, 0.6);
+			content: "\25BC";
+			position: absolute;
+			text-align: center;
+		}
+
+		/* Style northward tooltips differently */
+.d3-tip.n:after {
+			margin: 0px 0 0 0;
+			top: 100%;
+			left: 0;
+		}
+</style>
+
+</head>
+<body>
+
+	<div class="container">
+
+		<!-- Parent container for the visualization -->
+		<div id="chart-area1"></div>
+		<div id="chart-area2"></div>
+
+	</div>
+
+
+
+	<!-- Load JS libraries: jQuery, bootstrap, D3, D3 tooltip -->
+	<script src="js/d3.min.js"></script>
+	<script src="js/d3.tip.js"></script>
+
+	<!-- Your implementation -->
+	<script src="js/daily.js"></script>
+</body>
+</html>
