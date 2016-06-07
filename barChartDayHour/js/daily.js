@@ -154,8 +154,110 @@ svg.selectAll(".bar")
 		else return "#FFD801";
 	})
 	.on("click", function(d){
-		console.log(this);
-		svg.selectAll(".bar").style("fill", "#FFD801");
+		//console.log(this);
+		//repaint(this);
+
+		svg.selectAll(".bar").style("fill", function(d){
+			return "#FFD801"});
+		var list = document.getElementsByTagName("rect");
+		//var att = list[0].attributes;
+	
+	
+			var att = list[0].getAttribute("alt");
+			var att2 = list[1].getAttribute("alt");
+			var att3 = list[2].getAttribute("alt");
+			var att4 = list[3].getAttribute("alt");
+			var att5 = list[4].getAttribute("alt");
+			var att6 = list[5].getAttribute("alt");
+			var att7 = list[6].getAttribute("alt");
+
+			if(att !="check"){
+				list[0].setAttribute("style", "fill: #FFD801");
+				list[7].setAttribute("style", "fill: #FFD801");
+				list[14].setAttribute("style", "fill: #FFD801");
+				list[21].setAttribute("style", "fill: #FFD801");
+			}
+			else{
+				list[0].setAttribute("style", "fill: silver");
+				list[7].setAttribute("style", "fill: silver");
+				list[14].setAttribute("style", "fill: silver");
+				list[21].setAttribute("style", "fill: silver");
+			}
+			if(att2 !="uncheck"){
+				list[1].setAttribute("style", "fill: #FFD801");
+				list[8].setAttribute("style", "fill: #FFD801");
+				list[15].setAttribute("style", "fill: #FFD801");
+				list[22].setAttribute("style", "fill: #FFD801");
+			}
+			else{
+				list[1].setAttribute("style", "fill: silver");
+				list[8].setAttribute("style", "fill: silver");
+				list[15].setAttribute("style", "fill: silver");
+				list[22].setAttribute("style", "fill: silver");
+			}
+			if(att3 !="uncheck"){
+				list[2].setAttribute("style", "fill: #FFD801");
+				list[9].setAttribute("style", "fill: #FFD801");
+				list[16].setAttribute("style", "fill: #FFD801");
+				list[23].setAttribute("style", "fill: #FFD801");
+			}
+			else{
+				list[2].setAttribute("style", "fill: silver");
+				list[9].setAttribute("style", "fill: silver");
+				list[16].setAttribute("style", "fill: silver");
+				list[23].setAttribute("style", "fill: silver");
+			}
+			if(att4 !="uncheck"){
+				list[3].setAttribute("style", "fill: #FFD801");
+				list[10].setAttribute("style", "fill: #FFD801");
+				list[17].setAttribute("style", "fill: #FFD801");
+				list[24].setAttribute("style", "fill: #FFD801");
+			}
+			else{
+				list[3].setAttribute("style", "fill: silver");
+				list[10].setAttribute("style", "fill: silver");
+				list[17].setAttribute("style", "fill: silver");
+				list[24].setAttribute("style", "fill: silver");
+			}
+			if(att5 !="uncheck"){
+				list[4].setAttribute("style", "fill: #FFD801");
+				list[11].setAttribute("style", "fill: #FFD801");
+				list[18].setAttribute("style", "fill: #FFD801");
+				list[25].setAttribute("style", "fill: #FFD801");
+			}
+			else{
+				list[4].setAttribute("style", "fill: silver");
+				list[11].setAttribute("style", "fill: silver");
+				list[18].setAttribute("style", "fill: silver");
+				list[25].setAttribute("style", "fill: silver");
+			}
+			if(att6 !="uncheck"){
+				list[5].setAttribute("style", "fill: #FFD801");
+				list[12].setAttribute("style", "fill: #FFD801");
+				list[19].setAttribute("style", "fill: #FFD801");
+				list[26].setAttribute("style", "fill: #FFD801");
+			}
+			else{
+				list[5].setAttribute("style", "fill: silver");
+				list[12].setAttribute("style", "fill: silver");
+				list[19].setAttribute("style", "fill: silver");
+				list[26].setAttribute("style", "fill: silver");
+			}
+			if(att7 !="uncheck"){
+				list[6].setAttribute("style", "fill: #FFD801");
+				list[13].setAttribute("style", "fill: #FFD801");
+				list[20].setAttribute("style", "fill: #FFD801");
+				list[27].setAttribute("style", "fill: #FFD801");
+			}
+			else{
+				list[6].setAttribute("style", "fill: silver");
+				list[13].setAttribute("style", "fill: silver");
+				list[20].setAttribute("style", "fill: silver");
+				list[27].setAttribute("style", "fill: silver");
+			}
+		
+		//var altP = list[0].getAttribute("style");
+		//console.log(altP);
 		this.style.fill = "#FFA62F";
 		updateHourlyData(d[2]);
 	});
@@ -261,17 +363,24 @@ function selectCheckBox(checkbox){
 	//console.log(checkbox);
 	//console.log(checkbox.checked);
 	var value = checkbox.value;
-
+	var checkboxStatus = checkbox.checked;
 	if(checkbox.checked){
 		check(svg, value);
-		
+
 	}
 	else{
 		uncheck(svg,value);
 	}
 	//checkBox(svg,checkbox);
+	//console.log(checkbox.alt);
+}
 
-
+function repaint(bar){
+	svg.selectAll(".bar")
+		.style("fill", function(d){
+			console.log("hi"+d);
+			return "red";
+		});
 }
 
 function updateHourlyData(data){
