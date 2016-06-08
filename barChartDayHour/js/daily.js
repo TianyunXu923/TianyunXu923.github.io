@@ -328,6 +328,8 @@ var brushg = svg2.append("g")
 	.on("brushend", brushend))
 	.selectAll("rect")
 	.attr("height", height);
+//	.attr("y", "100px"); could brush area(rectangle)
+	// .attr("transform", "translate(0,"+height+")");
 
 svg2.selectAll(".bar2")
 	.data(allData[0][2])
