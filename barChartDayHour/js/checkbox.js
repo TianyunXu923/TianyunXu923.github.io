@@ -1,7 +1,6 @@
 
-console.log("beigining");
 function check(svg, value){
-	console.log("beigining");
+	//console.log("beigining");
 	var date = "#"+value;
 	//value = value+"";
 	var checkBar = document.getElementById(value);
@@ -20,4 +19,3 @@ function uncheck(svg, value){
 	  	 .style("fill", "silver");
 
 }
-console.log("end");

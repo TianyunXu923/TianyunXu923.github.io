@@ -157,13 +157,13 @@ svg.selectAll(".bar")
 		//console.log(this);
 		//repaint(this);
 
-		svg.selectAll(".bar").style("fill", function(d){
-			return "#FFD801"});
+		// svg.selectAll(".bar").style("fill", function(d){
+		// 	return "#FFD801"});
 		var list = document.getElementsByTagName("rect");
 		//var att = list[0].attributes;
 	
 	
-			var att = list[0].getAttribute("alt");
+			var att0 = list[0].getAttribute("alt");
 			var att2 = list[1].getAttribute("alt");
 			var att3 = list[2].getAttribute("alt");
 			var att4 = list[3].getAttribute("alt");
@@ -171,19 +171,22 @@ svg.selectAll(".bar")
 			var att6 = list[5].getAttribute("alt");
 			var att7 = list[6].getAttribute("alt");
 
-			if(att !="check"){
+			if(att0 !="uncheck"){
+				//console.log("hey");
 				list[0].setAttribute("style", "fill: #FFD801");
 				list[7].setAttribute("style", "fill: #FFD801");
 				list[14].setAttribute("style", "fill: #FFD801");
 				list[21].setAttribute("style", "fill: #FFD801");
 			}
 			else{
+				//console.log("hey");
 				list[0].setAttribute("style", "fill: silver");
 				list[7].setAttribute("style", "fill: silver");
 				list[14].setAttribute("style", "fill: silver");
 				list[21].setAttribute("style", "fill: silver");
 			}
 			if(att2 !="uncheck"){
+				//console.log("tue");
 				list[1].setAttribute("style", "fill: #FFD801");
 				list[8].setAttribute("style", "fill: #FFD801");
 				list[15].setAttribute("style", "fill: #FFD801");
