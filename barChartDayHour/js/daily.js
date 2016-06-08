@@ -281,13 +281,8 @@ svg.selectAll(".bar")
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide);
 
-// var str = "12345";
-// str = str.substring(1,str.length-1);
-// console.log(str);
 
-// d3.txt("hourlydata.txt", function(error, txt){
-// 	console.log(txt);
-// });
+
 
 var svg2 = d3.select("#chart-area1").append("svg")
 			.attr("width", width + margin.left + margin.right)
@@ -325,6 +320,14 @@ var y2 = d3.scale.linear()
 		.domain([0, d3.max(allData[0][2])])
 		.range([height, 0]);
 
+var brushg = svg2.append("g")
+	.attr("class", "brush")
+	.call(d3.svg.brush().x(x2)
+	.on("brushstart", brushstart)
+	.on("brush", brushmove)
+	.on("brushend", brushend))
+	.selectAll("rect")
+	.attr("height", height);
 
 svg2.selectAll(".bar2")
 	.data(allData[0][2])
@@ -350,6 +353,8 @@ svg2.append("g")
    .attr("transform", "translate(33," + (height+5 ) + ")")
    .call(xAxis2);
 
+
+
 svg2.call(tip2);
 tip2.html(function(element){
 	return "Value: "+Math.round(element*100)/100;
@@ -359,6 +364,47 @@ svg2.selectAll(".bar2")
         .data(allData[0][2])
         .on("mouseover", tip2.show)
         .on("mouseout", tip2.hide);
+
+
+
+function brushstart(){
+	svg2.classed("selecting", true);
+}
+
+function brushmove(){
+	//var i =0;
+	// [x1, x2] range of the brush rectangle
+	var s = d3.event.target.extent();
+
+	svg2.selectAll("rect").classed("selected", function(d, index){
+		// d is value
+		
+
+		//console.log(s+", "+ " index: "+index+3+"ss"+x2(index));
+		//console.log(s[0] <= (d = x2(index-3)) && d <= s[1]);
+			return s[0] <= (d = x2(index-3)) && (d-15) <= s[1]; 
+
+	});
+
+}
+function brushmove2(){
+	//var i =0;
+	// [x1, x2] range of the brush rectangle
+	var s = d3.event.target.extent();
+
+	svg2.selectAll("rect").classed("selected", function(d, index){
+		// d is value
+		//console.log(s+", "+ " index: "+index+3+"ss"+x2(index));
+		//console.log(s[0] <= (d = x2(index-3)) && d <= s[1]);
+			return s[0] <= (d = x2(index-7)) && (d-15) <= s[1]; 
+
+	});
+
+}
+
+function brushend(){
+	svg2.classed("selecting", !d3.event.target.empty());
+}
 
 //checkbox.js
 
@@ -378,16 +424,10 @@ function selectCheckBox(checkbox){
 	//console.log(checkbox.alt);
 }
 
-function repaint(bar){
-	svg.selectAll(".bar")
-		.style("fill", function(d){
-			console.log("hi"+d);
-			return "red";
-		});
-}
 
 function updateHourlyData(data){
 	svg2.selectAll(".bar2").remove();
+	svg2.selectAll(".brush").remove();
 	var minDate2 = d3.min(data);
 	//console.log(minDate);
 	//var maxDate = d3.time.format('%m-%d')(new Date(allData[allData.length-1][0]));
@@ -399,6 +439,24 @@ function updateHourlyData(data){
 		.domain([0, d3.max(data)])
 		.range([height, 0]);
 
+
+     svg2.append("g")
+	.attr("class", "brush")
+	.call(d3.svg.brush().x(x2)
+	.on("brushstart", brushstart)
+	.on("brush", brushmove)
+	.on("brushend", brushend))
+	.selectAll("rect")
+	.attr("height", height);
+
+	var brushg = svg2.append("g")
+	.attr("class", "brush")
+	.call(d3.svg.brush().x(x2)
+	.on("brushstart", brushstart)
+	.on("brush", brushmove2)
+	.on("brushend", brushend))
+	.selectAll("rect")
+	.attr("height", height);
 
 	svg2.selectAll(".bar2")
 		.data(data)
@@ -428,6 +486,7 @@ function updateHourlyData(data){
         .data(data)
         .on("mouseover", tip2.show)
         .on("mouseout", tip2.hide);
+ 
 
 }
 
