@@ -1,3 +1,143 @@
+
+function readData(file){
+	var hourlyData = new XMLHttpRequest();
+	hourlyData.open("GET", file, false);
+	hourlyData.onreadystatechange = function(){
+		if(hourlyData.readyState === 4){
+			if(hourlyData.status === 200 || hourlyData.status == 0){
+				var hourlyDataString = hourlyData.responseText;
+				//console.log(hourlyDataString);
+				//return hourlyDataString;
+				hourlyString = hourlyDataString;
+			}
+		}
+	}
+	hourlyData.send(null);
+}
+
+
+function brushstart(){
+	svg2.classed("selecting", true);
+}
+
+function brushmove(){
+	//var i =0;
+	// [x1, x2#BCC6CC] range of the brush rectangle
+	var s = d3.event.target.extent();
+
+	svg2.selectAll("rect").classed("selected", function(d, index){
+		// d is value
+		
+
+		//console.log(s+", "+ " index: "+index+3+"ss"+x2(index));
+		//console.log(s[0] <= (d = x2(index-3)) && d <= s[1]);
+			return s[0] <= (d = x2(index-3)) && (d-15) <= s[1]; 
+
+	});
+
+}
+function brushmove2(){
+	//var i =0;
+	// [x1, x2] range of the brush rectangle
+	var s = d3.event.target.extent();
+
+	svg2.selectAll("rect").classed("selected", function(d, index){
+		// d is value
+		//console.log(s+", "+ " index: "+index+3+"ss"+x2(index));
+		//console.log(s[0] <= (d = x2(index-3)) && d <= s[1]);
+			return s[0] <= (d = x2(index-7)) && (d-15) <= s[1]; 
+
+	});
+
+}
+
+function brushend(){
+	svg2.classed("selecting", !d3.event.target.empty());
+}
+
+//checkbox.js
+
+function selectCheckBox(checkbox){
+	//console.log(checkbox);
+	//console.log(checkbox.checked);
+	var value = checkbox.value;
+	var checkboxStatus = checkbox.checked;
+	if(checkbox.checked){
+		check(svg, value);
+
+	}
+	else{
+		uncheck(svg,value);
+	}
+	//checkBox(svg,checkbox);
+	//console.log(checkbox.alt);
+}
+
+
+function updateHourlyData(data){
+	svg2.selectAll(".bar2").remove();
+	svg2.selectAll(".brush").remove();
+	var minDate2 = d3.min(data);
+	//console.log(minDate);
+	//var maxDate = d3.time.format('%m-%d')(new Date(allData[allData.length-1][0]));
+	var maxDate2 = d3.max(data);
+
+
+
+	y2 = d3.scale.linear()
+		.domain([0, d3.max(data)])
+		.range([height, 0]);
+
+
+     svg2.append("g")
+	.attr("class", "brush")
+	.call(d3.svg.brush().x(x2)
+	.on("brushstart", brushstart)
+	.on("brush", brushmove)
+	.on("brushend", brushend))
+	.selectAll("rect")
+	.attr("height", height);
+
+	var brushg = svg2.append("g")
+	.attr("class", "brush")
+	.call(d3.svg.brush().x(x2)
+	.on("brushstart", brushstart)
+	.on("brush", brushmove2)
+	.on("brushend", brushend))
+	.selectAll("rect")
+	.attr("height", height);
+
+	svg2.selectAll(".bar2")
+		.data(data)
+		.enter()
+		.append("rect")
+		.attr("class","bar2")
+		.attr("x", function(d, index){
+			return x2(index)+12;
+		}) 
+		.attr("y", function(d){
+			return y2(d);
+		})   	
+		.attr("width", x2.rangeBand())
+		.attr("height", function(d){
+		// if(d === 0){
+		// 	return 1;
+		// }
+			return height - y2(d);
+		});
+
+	svg2.call(tip2);
+	tip2.html(function(element){
+		return "Value: "+Math.round(element*100)/100;
+	});
+
+	svg2.selectAll(".bar2")
+        .data(data)
+        .on("mouseover", tip2.show)
+        .on("mouseout", tip2.hide);
+ 
+
+}
 var margin = {
 	top: 20, right: 40, bottom: 30, left: 40, top2: 40
 },
@@ -18,21 +158,7 @@ var tip2 = d3.tip()
 	.attr('class', 'd3-tip');
 
 var hourlyString; 
-function readData(file){
-	var hourlyData = new XMLHttpRequest();
-	hourlyData.open("GET", file, false);
-	hourlyData.onreadystatechange = function(){
-		if(hourlyData.readyState === 4){
-			if(hourlyData.status === 200 || hourlyData.status == 0){
-				var hourlyDataString = hourlyData.responseText;
-				//console.log(hourlyDataString);
-				//return hourlyDataString;
-				hourlyString = hourlyDataString;
-			}
-		}
-	}
-	hourlyData.send(null);
-}
+
 
 readData("hourlydata1.txt");
 
@@ -368,129 +494,6 @@ svg2.selectAll(".bar2")
         .on("mouseout", tip2.hide);
 
 
-
-function brushstart(){
-	svg2.classed("selecting", true);
-}
-
-function brushmove(){
-	//var i =0;
-	// [x1, x2] range of the brush rectangle
-	var s = d3.event.target.extent();
-
-	svg2.selectAll("rect").classed("selected", function(d, index){
-		// d is value
-		
-
-		//console.log(s+", "+ " index: "+index+3+"ss"+x2(index));
-		//console.log(s[0] <= (d = x2(index-3)) && d <= s[1]);
-			return s[0] <= (d = x2(index-3)) && (d-15) <= s[1]; 
-
-	});
-
-}
-function brushmove2(){
-	//var i =0;
-	// [x1, x2] range of the brush rectangle
-	var s = d3.event.target.extent();
-
-	svg2.selectAll("rect").classed("selected", function(d, index){
-		// d is value
-		//console.log(s+", "+ " index: "+index+3+"ss"+x2(index));
-		//console.log(s[0] <= (d = x2(index-3)) && d <= s[1]);
-			return s[0] <= (d = x2(index-7)) && (d-15) <= s[1]; 
-
-	});
-
-}
-
-function brushend(){
-	svg2.classed("selecting", !d3.event.target.empty());
-}
-
-//checkbox.js
-
-function selectCheckBox(checkbox){
-	//console.log(checkbox);
-	//console.log(checkbox.checked);
-	var value = checkbox.value;
-	var checkboxStatus = checkbox.checked;
-	if(checkbox.checked){
-		check(svg, value);
-
-	}
-	else{
-		uncheck(svg,value);
-	}
-	//checkBox(svg,checkbox);
-	//console.log(checkbox.alt);
-}
-
-
-function updateHourlyData(data){
-	svg2.selectAll(".bar2").remove();
-	svg2.selectAll(".brush").remove();
-	var minDate2 = d3.min(data);
-	//console.log(minDate);
-	//var maxDate = d3.time.format('%m-%d')(new Date(allData[allData.length-1][0]));
-	var maxDate2 = d3.max(data);
-
-
-
-	y2 = d3.scale.linear()
-		.domain([0, d3.max(data)])
-		.range([height, 0]);
-
-
-     svg2.append("g")
-	.attr("class", "brush")
-	.call(d3.svg.brush().x(x2)
-	.on("brushstart", brushstart)
-	.on("brush", brushmove)
-	.on("brushend", brushend))
-	.selectAll("rect")
-	.attr("height", height);
-
-	var brushg = svg2.append("g")
-	.attr("class", "brush")
-	.call(d3.svg.brush().x(x2)
-	.on("brushstart", brushstart)
-	.on("brush", brushmove2)
-	.on("brushend", brushend))
-	.selectAll("rect")
-	.attr("height", height);
-
-	svg2.selectAll(".bar2")
-		.data(data)
-		.enter()
-		.append("rect")
-		.attr("class","bar2")
-		.attr("x", function(d, index){
-			return x2(index)+12;
-		}) 
-		.attr("y", function(d){
-			return y2(d);
-		})   	
-		.attr("width", x2.rangeBand())
-		.attr("height", function(d){
-		// if(d === 0){
-		// 	return 1;
-		// }
-			return height - y2(d);
-		});
-
-	svg2.call(tip2);
-	tip2.html(function(element){
-		return "Value: "+Math.round(element*100)/100;
-	});
-
-	svg2.selectAll(".bar2")
-        .data(data)
-        .on("mouseover", tip2.show)
-        .on("mouseout", tip2.hide);
- 
-
-}
 
 svg.append("text").attr("x", 20)
 			.attr("y", 20)
