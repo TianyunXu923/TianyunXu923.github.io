@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang = “en“>
+<head>
+	<meta charset = “utf-8“>
+	<title>Firebase</title>
+  <style>
+
+  form { 
+    display: table;  
+  }
+  p { 
+    display: table-row; 
+  }
+  label {
+   display: table-cell; 
+   text-align: left;
+  }
+  input { 
+    display: table-cell; 
+  }  
+
+
+  #pokedexImg{
+      position: fixed;
+      left: 450px;
+      top: 120px;
+    }
+
+  
+  </style>
+
+</head>
+
+<body>
+
+<div class='register'>
+  <h4>Register a pokemon</h4>
+  <form>
+    <p>
+      <label for='a'>Name:</label> 
+      <input type = 'text' id = 'name'/> <br>
+    </p><br>
+    <p>  
+      <label for='b'>Type:</label>
+      <input type = 'text' id = 'type'/> <br>
+    </p><br>
+    <p>
+      <label for='c'>Color:</label>
+      <input type='text' id='color'/> 
+    </p><br>   
+      <button type='button' onclick='registerPokemon()'>Register/ Update</button>
+  </form>	
+
+</div>
+
+<div class='remove'>
+  <h4>Remove a pokemon from Pokedex</h4>
+  <form>
+        Remove&nbsp;
+        <input type ='text' id = 'removeName' /><br>
+      <button type='button' onclick='removePokemon()'>Submit</button>
+</form>
+
+<div class= 'Pokedex'>
+  <h4>Now in Pokedex</h4>
+  <ul id='PokemonList'>
+  </ul>
+  
+</div>
+<div id = 'pic'>
+    <img id='pokedexImg' src='http://vignette3.wikia.nocookie.net/pokemon/images/6/6f/Pok%C3%A9dex_Pt.png/revision/latest?cb=20110528144645' height = '160' width='220'>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyC900QUPx5l3cvQ5YBoK3KxdkexNulQegs",
+    authDomain: "test-26d99.firebaseapp.com",
+    databaseURL: "https://test-26d99.firebaseio.com",
+    storageBucket: "test-26d99.appspot.com",
+  };
+  firebase.initializeApp(config);
+</script> 
+<script>
+
+// example 1, given the name of the key, get value
+function getDatabaseValueByKey() {    
+  var fruit=firebase.database().ref('data')
+  //var databaseRef = firebase.database().ref('data')
+  //console.log(databaseRef.child('apple').val())
+  fruit.on("value", function(snapshot) {
+    //console.log(snapshot.val())
+
+    var apple = snapshot.child("apple").val(); 
+  
+    var banana = snapshot.child("banana").val(); 
+  
+    var orange = snapshot.child("orange").val(); 
+  
+    //console.log([apple, banana, orange])
+  })
+}
+
+// create Pokemon in the firebase
+function Pokemon(){  
+  // ---------- initialize pokemon database----------
+  var Pikachu ={
+    name: 'Pikachu',
+    type: 'Electric',
+    color: 'yellow'
+  } 
+
+  // create Pokemon database in firebase
+  createCategory('Pokemon', Pikachu)
+
+
+  var Horsea = {
+    name: 'Horsea',
+    type: 'Water',
+    color: 'blue'
+  }
+
+  var Bulbasaur = {
+    name: 'Bulbasaur',
+    type: 'Grass/ Poison',
+    color: 'green'
+  }
+
+  var Charmander = {
+    name: 'Charmander',
+    type: 'Fire',
+    color: 'red'
+  }
+
+  addPokemon(Horsea) 
+  addPokemon(Bulbasaur)
+  addPokemon(Charmander)
+  //--------------------------------------------------
+
+  // list elements that's added on html
+  var pokemon = firebase.database().ref('Pokemon')
+  pokemon.on('child_added', function(snapshot){
+    var ul = document.getElementById('PokemonList')
+    var li = document.createElement('li')
+    var removeButton = document.createElement('button')
+    var editButton = document.createElement('button')
+    var pokemonName = snapshot.val().name
+    var pokemonType = snapshot.val().type
+    var pokemonColor = snapshot.val().color
+
+
+    removeButton.innerHTML = 'remove'
+    editButton.innerHTML = 'edit'
+
+    li.appendChild(document.createTextNode(pokemonName+', '+ pokemonType+', '+pokemonColor+'     '))
+  // assign pokemon name as list id
+    li.id = pokemonName
+    // title saves pokemon all attributes (data) 
+    li.title= pokemonName+','+pokemonType+','+pokemonColor
+
+    li.appendChild(removeButton)
+    li.appendChild(editButton)
+
+    removeButton.setAttribute('onclick', 'removeButton(this.parentNode.id)')
+    editButton.setAttribute('onclick', 'editButton(this.parentNode.id, this.parentNode.title)')
+
+    ul.appendChild(li)
+  })
+
+
+
+  // remove pokemon from the list if it's deleted
+  pokemon.on('child_removed', function(snapshot){
+    var removedPokemon = document.getElementById(snapshot.val().name)
+    removedPokemon.parentNode.removeChild(removedPokemon)
+  })
+
+  // whenever there's a update in database,
+  // update the Pokedex too.
+  pokemon.on('child_changed', function(snapshot){
+
+    var updatedPokemon = document.getElementById(snapshot.val().name)
+
+   // update Pokemon title's information
+    updatedPokemon.title =snapshot.val().name+','+snapshot.val().type+','+snapshot.val().color 
+
+    updatedPokemon.innerHTML = (snapshot.val().name+', '+ snapshot.val().type+', '+snapshot.val().color+'     <button onclick="removeButton(this.parentNode.id)">remove</button><button onclick="editButton(this.parentNode.id,this.parentNode.title)">edit</button>')
+  })
+}
+
+// create Pokemon json in database
+function createCategory(c, initialInfo){
+  // var newKey = firebase.database().ref(c+'').push().key  
+  // var content = newKey+': '
+  firebase.database().ref(c).set(initialInfo.name)
+  firebase.database().ref(c).child(initialInfo.name).set(initialInfo)
+}
+
+
+// add 
+// or could create a key of named:
+//  firebase.database().ref('Pokemon').child('Pikachu').set()
+// info better be a json
+function addPokemon(info){
+  // create a new key
+  // var newKey = firebase.database().ref('Pokemon').push().key
+
+  firebase.database().ref('Pokemon').child(info.name).set(info)
+ } 
+
+// add pokemon to firebase from html
+function registerPokemon(){
+  var Name = document.getElementById('name').value
+  var Type = document.getElementById('type').value
+  var Color = document.getElementById('color').value
+  var jsonFormat = {
+    name: Name,
+    type: Type,
+    color: Color
+  }
+  addPokemon(jsonFormat)
+  document.getElementById('name').value = null
+  document.getElementById('type').value = null
+  document.getElementById('color').value = null
+
+}
+
+// delete pokemon database from firebase
+function removeAllPokemon(){
+  var removed = firebase.database().ref('Pokemon').remove()
+  removed.then(function(){
+    console.log('remove succeeded')
+  }).catch(function(){
+    console.log('problem removing')
+  })
+}
+
+// delete pokemon by name(key)
+function removePokemon(){
+  var key = document.getElementById('removeName').value
+  key = key.toLowerCase()
+  key = key.charAt(0).toUpperCase() + key.slice(1)
+  console.log(key)
+  var remove = firebase.database().ref('Pokemon').child(key).remove()
+  document.getElementById('removeName').value =null
+}
+
+function main(){
+  removeAllPokemon()
+  Pokemon()
+}
+
+// pokedex remove button 
+function removeButton(key){
+   var remove = firebase.database().ref('Pokemon').child(key).remove()
+}
+
+// edit button
+function editButton(key, val){
+  var editList = document.getElementById(key)
+  var editPokemon = firebase.database().ref('Pokemon').child(key)
+  var info = val.split(',')
+  var name = info[0]
+  var type = info[1]
+  var color = info[2]
+  var nameInput = document.getElementById('name')
+  var typeInput = document.getElementById('type')
+  var colorInput = document.getElementById('color')
+
+  nameInput.value=name
+  typeInput.value=type
+  colorInput.value = color
+
+
+ }
+
+main()
+</script>
+    
+</body>
+</html>
