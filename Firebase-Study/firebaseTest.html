@@ -230,7 +230,7 @@ function registerPokemon(){
 function removeAllPokemon(){
   var removed = firebase.database().ref('Pokemon').remove()
   removed.then(function(){
-    console.log('remove succeeded')
+    // console.log('remove succeeded')
   }).catch(function(){
     console.log('problem removing')
   })
