@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Timeseries Chart</title>
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <style>
+    body { font: 12px Arial;}
+
+    path { 
+        stroke: steelblue;
+        stroke-width: 2;
+        fill: none;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: grey;
+      stroke-width: 1;
+      shape-rendering: crispEdges;
+    }
+
+  </style>
+
+</head>
+<body>
+  <div id='chart'></div>
+
+
+  <!-- Load JS libraries: jQuery, bootstrap, D3, D3 tooltip -->
+  <script src="jquery.min.js"></script>
+  <script src="bootstrap.min.js"></script>
+  <script src="d3.min.js"></script>
+  <script src="d3.tip.js"></script>
+  <script>
+    var margin = {
+      top: 30,
+      right: 20,
+      bottom: 30,
+      left: 50
+    },
+      width = 800 - margin.left - margin.right,
+      height = 300 - margin.top - margin.bottom
+
+    // Parse the date/ time  
+    var parseDate = d3.time.format('%Y-%m-%dT%H:%M:%S+%M:%S').parse
+        bisectDate = d3.bisector(function(d) {
+          return d.target_date
+        }).left
+
+      
+    // Set the ranges
+    var x = d3.time.scale().range([0, width-20])
+    var y = d3.scale.linear().range([height, 0])
+
+    // Define the axes 
+    var xAxis = d3.svg.axis().scale(x)
+          .orient('bottom').ticks(5)
+
+    var yAxis = d3.svg.axis().scale(y)
+          .orient('left').ticks(5)
+
+    // Define the line
+    var valueline = d3.svg.line()
+        .x(function(d) { return x(d.target_date); })
+        .y(function(d) { return y(d.revenue); })      
+
+    // Adds the svg canvas
+    var svg = d3.select('#chart')
+          .append('svg')
+          .attr('width', width+margin.left + margin.right)
+          .attr('height', height + margin.top + margin.bottom)
+          .append('g')
+          .attr('transform', 'translate(70'+',' + margin.top+')')
+
+    var lineSvg = svg.append('g')
+
+    var focus = svg.append('g')
+                  .style('display', 'none')      
+
+    // Get the data    
+    d3.json('data.json', function(erro, data){
+      console.log(data)
+      data = data.data
+      data.forEach(function(d){
+        console.log(parseDate(d.target_date))
+        d.target_date = parseDate(d.target_date)
+        d.revenue = Number(d.revenue)
+      })
+
+    // scale the range of the data
+    x.domain(d3.extent(data, function(d){ return d.target_date}))
+    y.domain([0, d3.max(data, function(d) {return d.revenue })])
+
+    // Add the valueline path
+    lineSvg.append('path')
+      .attr('class', 'line')
+      .attr('d', valueline(data))  
+
+    // Add the scatterplot
+    lineSvg.selectAll('dot')
+        .data(data)
+        .enter().append('circle') 
+        .attr('r', 2)
+        .style('fill', 'black')
+        .attr('cx', function(d) { 
+          // console.log(d)
+          return x(d.target_date)})
+        .attr('cy', function(d) { return y(d.revenue)})
+
+    // Add the X Axis
+    svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0,'+height+')')
+      .call(xAxis)
+
+    // Add the Y Axis
+    svg.append('g')
+      .attr('class', 'y axis')
+      .call(yAxis) 
+
+    // append the x line
+    focus.append('line')
+        .attr('class', 'x')
+        .style('stroke', 'blue')
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 0.5)
+        .attr('y1', 0)
+        .attr('y2', height)
+
+    // append the y line
+    focus.append('line')
+      .attr('class', 'y')
+      .style('stroke', 'blue')
+      .style('stroke-dasharray', '3,3')
+      .style('opacity', 0.5)
+      .attr('x1', width)
+      .attr('x2', width)
+
+    // append the circle at the intersection
+    focus.append('circle')
+      .attr('class', 'y')
+      .style('fill', 'none')
+      .style('stroke', 'blue')
+      .attr('r', 4)
+
+    // append the rectangle to capture mouse
+    svg.append('rect')
+      .attr('width', width)
+      .attr('height', height)
+      .style('fill', 'none')
+      .style('pointer-events', 'all')
+      .on('mouseover', function() {
+        focus.style('display', null)
+      })  
+      .on('mouseout', function() {
+        focus.style('display', 'none')
+      })
+      .on('mousemove', mousemove)
+
+    function mousemove() {
+      var x0 = x.invert(d3.mouse(this)[0])
+          i = bisectDate(data, x0, 1)
+          // console.log(x0)
+          // console.log(i)
+          d0 = data[i-1]
+          d1 = data[i]
+          if(i!= data.length){
+            d = x0 - d0.target_date > d1.target_date - x0 ? d1 : d0
+          }
+
+      focus.select('circle.y')
+          .attr('transform', 'translate('+x(d.target_date)+','+y(d.revenue)+')')
+
+      focus.select('.x')
+          .attr('transform', 'translate('+x(d.target_date)+','+y(d.revenue)+')')
+          .attr('y2', height-y(d.revenue))
+
+      focus.select('.y')
+          .attr('transform', 'translate('+width*(-1)+','+y(d.revenue)+')')
+          .attr('x2', width+width)
+    }
+
+
+    })
+
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
