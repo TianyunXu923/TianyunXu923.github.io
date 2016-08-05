@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<style>
+#insideFrame{
+	width:1200px;
+	height:600px;
+	overflow:hidden;
+}
+#frame{
+	position:absolute;
+	left:0px;
+	width:600px;
+	height:600px;
+	boder: 1px solid black;
+	overflow:hidden;
+}
+#first{
+	width:200px;
+	height:600px;
+	overflow:hidden;
+	
+
+}
+#second{
+	width:400px;
+	height:600px;
+	background-color:yellow;
+}
+#bu{
+	position:absolute;
+	right:0px;
+	width:250px;
+	height:600px;
+	border:1px solid black;
+}	
+</style>
+</head>
+<body>
+
+<div id="frame">
+<div id="insideFrame" style="position:absolute; left:0px;">
+<div id="first" style="position:absolute; left:0px; width:200px; overflow:hidden;"onmouseover="pic();" onmouseout="closePic();">
+<img id="im1" src="swing.jpg" >
+</div>
+<div id="second" style="position:absolute; left:200px;"></div>
+</div>
+</div>
+<div id="bu" onmouseover="move();" onclick="stop();"></div>
+</body>
+<script>
+//var myVar=setInterval('move();',400);
+function move(){
+	
+	var content = document.getElementById("insideFrame");
+	var pos=parseInt(content.style.left)-100;
+	
+	$("#insideFrame").stop(true,true).animate({left:pos+"px"});
+	//var content = document.getElementById("insideFrame");
+	//if(parseInt(content.style.left)>-200){
+	//var pos=parseInt(content.style.left)-1;
+	//content.style.left=pos+"px";
+	// myVar=setInterval('move();',400);
+}
+
+function stop(){
+	var content = document.getElementById("insideFrame");
+	var pos=parseInt(content.style.left)+100;
+	$("#insideFrame").stop(true,true).animate({left:pos+"px"});
+}
+function pic(){
+	//var pic=document.getElementById("first");
+	//var pos2 = parseInt(pic.style.width)+220;
+	$("#first").animate({width:"440px"});
+	//$("#first").css("overflow","visible");
+	$("#second").animate({left:"440px"});
+}
+function closePic(){
+	$("#first").animate({width:"200px"});
+
+	//$("#first").css("overflow","hidden");
+	$("#second").animate({left:"200px"});
+	
+}
+</script>
+
+
+
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

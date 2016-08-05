@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Loco</title>
+<style>
+#firstPage{
+	position:relative;
+	
+}
+
+#page1Back{
+	position:absolute;
+	left:0;
+	top:-180px;
+	width:100%;
+	height:auto;
+	opacity:0.8;
+}
+
+h1{
+	background:#C79926;
+	color:white;
+	font-family:"Arial",Sans-serif;
+	letter-spacing:3px;
+	font-size:25px;
+	padding-left:10px;
+		width:100px;
+}
+#head1{
+	position:absolute;
+	left:40%;
+	top:-5%;
+}
+#locoLogo{
+	
+	height:430px;
+	width:350px;
+
+}
+#secondLine{
+
+	position:absolute;
+	opacity:0.9;
+	left:30%;
+	top:37%;
+}
+#searchLine{
+	position:absolute;
+	top:35%;
+	left:140%;
+	width:250px;
+	height:23px;
+}
+#submit{
+	position:absolute;
+	top:35%;
+	left:400%;
+	width:50px;
+	height:30px;
+	font-size:100px;
+}
+#zip{
+	position:absolute;
+	top:43%;
+	left:43%;
+}
+.zipcode p{
+	color:#659EC7;
+	font-weight:bold;
+}
+#cities{
+position:absolute;
+	top:52%;
+	left:39%;
+	color:#EDC9AF;
+	font-size:23px;
+
+}
+
+</style>
+</head>
+<body>
+
+
+<div id="firstPage">
+
+<img id="page1Back" src="jiaozi.jpg">
+
+</div>
+<div id="head1"><img id="locoLogo" src="logo1.png"></div>
+<div id="secondLine">
+<h1 >LOCO</h1>
+<input type="text" id="searchLine">
+<input type="button" id="submit" onclick="parent.location='secondPage.html'" value=" Go ">
+ </div>
+ <div id="zip" class="zipcode">
+ <p>Enter your zip code.</p>
+ </div>
+ <div id="cities" class="city">
+<u>San Franscisco</u>&nbsp&nbsp&nbsp&nbsp&nbsp<u>Boston</u>&nbsp&nbsp&nbsp&nbsp&nbsp<u>New York</u>
+ </div>
+</body>
+</html>

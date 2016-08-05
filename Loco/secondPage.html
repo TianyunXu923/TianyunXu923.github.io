@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Loco Main</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+ <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<style>
+body{
+	background-color:black;
+}
+#main{
+	position:absolute;
+	width:1250px;
+	height:600px;
+	/*border:1px red solid;*/
+	overflow:hidden;
+}
+#left{
+	/*border:1px solid black;*/
+	width:280px;
+	height:600px;
+	position:absolute;
+	left:0px;
+	overflow:hidden;
+}
+#logoS{
+	position:absolute;
+	left:0px;
+	top:-90px;
+	height:350px;
+	width:320px;
+}
+#searchS{
+	position:absolute;
+	top:150px;
+	left:50px;
+	
+}
+#searchText{
+	position:absolute;
+	top:150px;
+	left:200px;
+	background-color:white;
+	color:#4863A0;
+	border-radius:4px;
+	cursor:pointer;
+}
+#menuBar{
+	position:absolute;
+	top:200px;
+	left:62px;
+
+}
+#menu1{
+	background-color:black;
+	border-radius:4px;
+	cursor:pointer;
+}
+#menu2{
+	background-color:black;
+	border-radius:4px;
+	cursor:pointer;
+}
+#allKind{
+	position:absolute;
+	top:320px;
+	left:86px;
+}
+#kind{
+	background-color:black;
+	border-radius:4px;	
+	color:white;
+}
+#kind:hover{
+	text-decoration: underline;
+	color:#6960EC;
+}
+#pay{
+	position:absolute;
+	top:550px;
+	left:75px;
+}
+#right{
+	/*border:1px solid black;*/
+	width:950px;
+	height:600px;
+	position:absolute;
+	left:280px;
+	overflow:hidden;
+}
+#rightFrame{
+	/*border:1px solid yellow;*/
+	width:1300px;
+	height:600px;
+	position:absolute;
+	left:0px;
+	overflow:hidden;
+}
+#first{
+	border:1px solid grey;
+	position:absolute;
+	left:0px;
+	width:200px;
+	height:600px;
+	overflow:hidden;
+	background-color:black;
+}
+#firstPic{
+	width:400px;
+	height:300px;
+	
+}
+#Label{
+	/*border:1px solid yellow;*/
+	position:absolute;
+	left:20px;
+	top:320px;
+	width:170px;
+	height:200px;
+}
+h1{
+	color:#9F000F;
+}
+#Info{
+	/*border:1px solid yellow;*/
+	position:absolute;
+	left:210px;
+	top:350px;
+	width:170px;
+	height:200px;
+}
+#second{
+	border:1px solid grey;
+	position:absolute;
+	left:200px;
+	top:0px;
+	width:200px;
+	height:600px;
+	overflow:hidden;
+	background-color:black;
+}
+#secondPic{
+	width:400px;
+	height:300px;
+	
+}
+#third{
+	border:1px solid grey;
+	position:absolute;
+	left:400px;
+	top:0px;
+	width:200px;
+	height:600px;
+	overflow:hidden;
+	background-color:black;
+
+}
+#thirdPic{
+	width:400px;
+	height:300px;
+}
+#fourth{
+	border:1px solid grey;
+	position:absolute;
+	left:600px;
+	top:0px;
+	width:200px;
+	height:600px;
+	overflow:hidden;
+	background-color:black;
+}
+#fourthPic{
+	width:400px;
+	height:300px;
+}
+#fifth{
+	border:1px solid grey;
+	position:absolute;
+	left:800px;
+	top:0px;
+	width:200px;
+	height:600px;
+	overflow:hidden;
+	background-color:black;
+}
+#fifthPic{
+	width:400px;
+	height:300px;
+}
+.addCart{
+	position:absolute;
+	left:45px;
+	top:540px;
+	height:26px;
+	width:112px;
+	color:#4863A0;
+	background-color:white;
+	font-family:Arial, sans-serif;
+	font-weight:bold;
+	font-size:18px;
+	border-radius:10px;
+	padding-left:3px;
+	cursor:pointer;
+}
+#moreInfo{
+	cursor:pointer;
+}
+</style>
+</head>
+<body>
+<div id="main">
+<div id="left">
+<img id="logoS" src="logo1.png">
+<input id="searchS" type="text"><span id="searchText" onmouseover="Schange();" onmouseleave="Sback();">Search</span>
+
+</div>
+<div id="menuBar">
+<p id="menu1" style="font-size:20px; color:#FFF8DC;" onmouseover="pChange1();" onmouseleave="pBack1();">&nbsp&nbsp&nbsp&nbsp&nbspNearby Food&nbsp&nbsp&nbsp&nbsp&nbsp</p>
+<p id="menu2" style="font-size:20px; color:#FFF8DC;" onmouseover="pChange2();" onmouseleave="pBack2();">&nbsp&nbsp&nbsp&nbsp&nbspNearby Chef&nbsp&nbsp&nbsp&nbsp&nbsp</p>
+</div>
+<div id="allKind">
+<p style=" cursor:pointer;" id="kind">&nbsp&nbspChinese Food&nbsp&nbsp</p>
+<p style="cursor:pointer;" id="kind">&nbsp&nbspJapanese Food&nbsp&nbsp</p>
+<p style="cursor:pointer;" id="kind">&nbsp&nbspMexican Food&nbsp&nbsp</p>
+<p style="cursor:pointer;" id="kind">&nbsp&nbspItalian Food&nbsp&nbsp</p>
+<p style="cursor:pointer;" id="kind">&nbsp&nbspFrench Food&nbsp&nbsp</p>
+<p style="cursor:pointer;" id="kind">&lt&nbspMore Options&nbsp&gt</p>
+</div>
+<div id="pay">
+<input type="button" value="Check my cart and pay">
+</div>
+<div id="right">
+
+<div id="rightFrame" style="left:0px;" >
+<div id="first" style="width:200px; opacity:0.8;" onmouseover="firstOpen();" onmouseleave="firstClose();">
+<img id="firstPic" src="manyufan1.jpg">
+<div id="Label">
+<h1>Unadon</h1>
+<p style="color:white;">$8.00/Box<br>Rate: 4.8</p>
+<p style="color:white;">Steamed white rice topped with grilled eel and half-cooked egg.</p>
+</div>
+<div id="Info">
+<p style="color:#6960EC; font-size:20px;">Chef: Yuri</p>
+
+<p style="color:#157DEC;"><u>Ingredient:</u></p>
+<p style="color:#157DEC;">Unagi Kabayaki, Eggs, Yellow Onion, Nori, Roasted Sesame Seeds, Rice, Unagi sauce. </p>
+<p id="moreInfo" style="color:#FFF8DC;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<u>More info...</u></p>
+
+</div>
+<div id="addCart" class="addCart" onmouseover="buttonChange();" onmouseleave="backtoNormal();"> Add to Cart</div>
+</div>
+
+
+<div id="second" style="width:200px; opacity:0.8;" onmouseover="secondOpen();" onmouseleave="secondClose();">
+<img id="secondPic" src="dumpling3.jpg" >
+<div id="Label">
+<h1>Dumpling</h1>
+<p style="color:white;">$10.00/12<br>Rate: 4.9</p>
+<p style="color:white;">Filled with minced chicken and spring onion.</p>
+</div>
+<div id="Info">
+<p style="color:#6960EC; font-size:20px;">Chef: Dachu</p>
+
+<p style="color:#157DEC;"><u>Ingredient:</u></p>
+<p style="color:#157DEC;">Flour, Chopped minced chicken, Soy Sauce, Spring Onion, Minced ginger, Vegetable oil for frying  </p>
+<p id="moreInfo" style="color:#FFF8DC;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<u>More info...</u></p>
+
+</div>
+<div id="addCart2" class="addCart" onmouseover="buttonChange2();" onmouseleave="backtoNormal2();"> Add to Cart</div>
+</div>
+<div id="third" style="width:200px; opacity:0.8;" onmouseover="thirdOpen();" onmouseleave="thirdClose();">
+<img id="thirdPic" src="mango.jpg">
+<div id="Label">
+<h1>Mango Pancake</h1>
+<p style="color:white;">$4.00/1<br>Rate: 5.0</p>
+<p style="color:white;">Mango and whipped cream wrapped in crepe.</p>
+</div>
+<div id="Info">
+<p style="color:#6960EC; font-size:20px;">Chef: Jasmine</p>
+
+<p style="color:#157DEC;"><u>Ingredient:</u></p>
+<p style="color:#157DEC;">Flour, Egg, Vegetable Oil, Butter, Milk, Diced Mango, Sugar </p>
+<p id="moreInfo" style="color:#FFF8DC;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<u>More info...</u></p>
+
+</div>
+<div id="addCart3" class="addCart" onmouseover="buttonChange3();" onmouseleave="backtoNormal3();"> Add to Cart</div>
+</div>
+<div id="fourth" style="width:200px;opacity:0.8;" onmouseover="fourthOpen();" onmouseleave="fourthClose();">
+<img id="fourthPic" src="veganAvocado.jpg">
+<div id="Label">
+<h1>Avocado stir-fry</h1>
+<p style="color:white;">$7.00<br>Rate: 4.9</p>
+<p style="color:white;">Vegan stir-fry with avocado</p>
+</div>
+<div id="Info">
+<p style="color:#6960EC; font-size:20px;">Chef: James</p>
+
+<p style="color:#157DEC;"><u>Ingredient:</u></p>
+<p style="color:#157DEC;">Avocado, Chopped tomato, Chopped bell paper</p>
+<p id="moreInfo" style="color:#FFF8DC;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<u>More info...</u></p>
+
+</div>
+<div id="addCart4" class="addCart" onmouseover="buttonChange4();" onmouseleave="backtoNormal4();"> Add to Cart</div>
+</div>
+<div id="fifth" style="width:200px;" onmouseover="fifthOpen();" onmouseleave="fifthClose();">
+<img id="fifthPic" src="baozi.gif">
+<div id="Label">
+<h1>Steamed Pork Buns</h1>
+<p style="color:white;">$1.50/1<br>Rate: 4.8</p>
+<p style="color:white;">Filled with sauced pork</p>
+</div>
+<div id="Info">
+<p style="color:#6960EC; font-size:20px;">Chef: Chuchu</p>
+
+<p style="color:#157DEC;"><u>Ingredient:</u></p>
+<p style="color:#157DEC;">Unagi Kabayaki, Eggs, Yellow Onion, Nori, Roasted Sesame Seeds, Rice, Unagi sauce. </p>
+<p id="moreInfo" style="color:#FFF8DC;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<u>More info...</u></p>
+
+</div>
+<div id="addCart5" class="addCart" onmouseover="buttonChange5();" onmouseleave="backtoNormal5();"> Add to Cart</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+function pChange1(){
+	$("#menu1").animate({color:"white",backgroundColor:"#E8A317"});	
+}
+function pBack1(){
+	$("#menu1").animate({color:"#FFF8DC",backgroundColor:"black"});	
+}
+function pChange2(){
+	$("#menu2").animate({color:"white",backgroundColor:"#E8A317"});	
+}
+function pBack2(){
+	$("#menu2").animate({color:"#FFF8DC",backgroundColor:"black"});	
+}
+function Schange(){
+	$("#searchText").animate({color:"white",backgroundColor:"#4863A0"});
+}
+function Sback(){
+	$("#searchText").animate({color:"#4863A0",backgroundColor:"white"});
+}
+function buttonChange(){
+	$("#addCart").animate({color:"white",backgroundColor:"#4863A0"});
+}
+function backtoNormal(){
+	$("#addCart").animate({color:"#4863A0",backgroundColor:"white"});	
+}
+function buttonChange2(){
+	$("#addCart2").animate({color:"white",backgroundColor:"#4863A0"});
+}
+function backtoNormal2(){
+	$("#addCart2").animate({color:"#4863A0",backgroundColor:"white"});	
+}function buttonChange3(){
+	$("#addCart3").animate({color:"white",backgroundColor:"#4863A0"});
+}
+function backtoNormal3(){
+	$("#addCart3").animate({color:"#4863A0",backgroundColor:"white"});	
+}function buttonChange4(){
+	$("#addCart4").animate({color:"white",backgroundColor:"#4863A0"});
+}
+function backtoNormal4(){
+	$("#addCart4").animate({color:"#4863A0",backgroundColor:"white"});	
+}function buttonChange5(){
+	$("#addCart5").animate({color:"white",backgroundColor:"#4863A0"});
+}
+function backtoNormal5(){
+	$("#addCart5").animate({color:"#4863A0",backgroundColor:"white"});	
+}
+function firstOpen(){
+	document.getElementById("first").style.opacity="1";
+	$("#first").animate({width:"400px"});
+	$("#second").animate({left:"400px"});
+	$("#third").animate({left:"600px"});
+	$("#fourth").animate({left:"800px"});
+	$("#fifth").animate({left:"1000px"});
+}
+function firstClose(){
+	$("#first").animate({width:"200px"});
+	document.getElementById("first").style.opacity="0.8";
+	$("#second").animate({left:"200px"});
+	$("#third").animate({left:"400px"});
+	$("#fourth").animate({left:"600px"});
+	$("#fifth").animate({left:"800px"});
+}
+function secondOpen(){
+	$("#second").animate({width:"400px"});
+	document.getElementById("second").style.opacity="1";
+	$("#third").animate({left:"600px"});
+	$("#fourth").animate({left:"800px"});
+	$("#fifth").animate({left:"1000px"});
+}
+function secondClose(){
+	$("#second").animate({width:"200px"});
+	document.getElementById("second").style.opacity="0.8";
+	$("#third").animate({left:"400px"});
+	$("#fourth").animate({left:"600px"});
+	$("#fifth").animate({left:"800px"});
+}
+function thirdOpen(){
+	$("#third").animate({width:"400px"});
+	document.getElementById("third").style.opacity="1";
+	$("#fourth").animate({left:"800px"});
+	$("#fifth").animate({left:"1000px"});
+}
+function thirdClose(){
+	$("#third").animate({width:"200px"});
+	document.getElementById("third").style.opacity="0.8";
+	$("#fourth").animate({left:"600px"});
+	$("#fifth").animate({left:"800px"});
+}
+function fourthOpen(){
+	$("#fourth").animate({width:"400px"});	
+	document.getElementById("fourth").style.opacity="1";
+	$("#fifth").animate({left:"1000px"});
+}
+function fourthClose(){
+	$("#fourth").animate({width:"200px"});
+	document.getElementById("fourth").style.opacity="0.8";
+	$("#fifth").animate({left:"800px"});
+}
+function fifthOpen(){
+	$("#fifth").animate({width:"400px"});
+	document.getElementById("fifth").style.opacity="1";
+}
+function fifthClose(){
+	$("#fifth").animate({width:"200px"});
+	document.getElementById("fifth").style.opacity="0.8";
+}
+
+</script>
+</body>
+</html>
