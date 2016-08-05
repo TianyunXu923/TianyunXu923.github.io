@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CustomGameLoop.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CustomGameLoop.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// &lt;editor-fold desc="CustomGameLoop">
+/**
+ * in charge of many initializations, pointer/mouse movements, top level 
+ * function, manage all the managers and draw items in the managers
+ * @returns {CustomGameLoop}
+ */
+function CustomGameLoop() {
+}
+
+/**
+ * instantiate gameloop
+ * @extends {GameLoop} CustomGameLoop
+ */
+CustomGameLoop.prototype = new GameLoop();
+
+/**
+ * initialize window resize function, element manager, pointer manager, 
+ * waterSymbo manager. After the initialization, all states' data
+ * should be loaded and can be used.
+ * @param {canvas} canvas
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.initialize = function(canvas) {
+    GameLoop.prototype.initialize.call(this, canvas);
+    /**
+     * window width/ window height
+     * @private
+     * @type {number} windowSizeRatio
+     * 
+     */
+    this.windowSizeRatio;
+    this.fillWindow();
+    var _this = this;
+    window.addEventListener('resize', function(){
+        _this.onWindowResize();
+    }, false);
+    
+    /**
+     * manage all elements that are drawn on the canvas
+     * @type {ElementManager} elementManager
+     */
+    this.elementManager = new ElementManager();
+    
+    /**
+     * manage mouse/pointer
+     * @type {PointerManager} pointerManager
+     * @param {ElementManager} pass this.elementManager 
+     * @param {number} pass window width
+     * @param {number} pass window height
+     */
+    
+    this.pointerManager = new PointerManager(this.elementManager, 
+    window.innerWidth,window.innerHeight, this.g);
+   // this.canvas.width = 1200;
+    //this.canvas.height = 550;
+    
+    /**
+     * manage all the waterSymbols
+     * @type {WaterSymbolManager} waterSymbolManager
+     * @param {ElementManager} pass this.elementManager
+     * @param {number} pass window width
+     * @param {number} pass window height
+     */
+    this.waterSymbolManager = new WaterSymbolManager(this.elementManager,
+    window.innerWidth, window.innerHeight);
+       
+}
+
+/**
+ * when window is resized and detected by the eventListener,
+ * this function will be called and it will call fillWindow function
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.onWindowResize = function(){
+    this.fillWindow();
+}
+
+/**
+ * after onWindowResize is called, this function will make the canvas fullfill
+ * the window, and calcute the windowSizeRatio
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.fillWindow = function(){
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight; 
+    this.windowSizeRatio = this.canvas.width/this.canvas.height;
+}
+
+/**
+ * allow user to set the canvas size
+ * @param {number} x
+ * @param {number} y
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.setCanvasSize = function(x, y){
+    this.g = this.canvas.getContext("2d");
+    this.canvas.width = x;
+    this.canvas.height = y;
+}
+
+/**
+ * When pointer click/press
+ * @param {number} id
+ * @param {vector} position
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.onPointerEnter = function(id, position) {
+    this.pointerManager.onPointerEnter(id, position);
+}
+
+/**
+ * when pointer is active
+ * @param {number} id
+ * @param {vector} position
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.onPointerActivate = function(id, position) {
+    this.pointerManager.onPointerActivate(id, position);
+}
+
+/**
+ * when pointer is moving
+ * @param {number} id
+ * @param {vector} position
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.onPointerMove = function(id, position){
+    this.pointerManager.onPointerMove(id, position);
+}
+
+/**
+ * when pointer is not active
+ * @param {number} id
+ * @param {vector} position
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.onPointerDeactivate = function(id, position){
+    this.pointerManager.onPointerDeactivate(id, position);
+}
+
+/**
+ * when pointer leaves
+ * @param {number} id
+ * @param {vector} position
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.onPointerLeave = function(id, position) {
+    this.pointerManager.onPointerLeave(id, position);
+}
+
+/**
+ * add element to this.elementManager
+ * @param {type} element
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.addElement = function (element) {
+    this.elementManager.addElement(element);
+}
+
+/**
+ * 
+ * @returns {Number|Window.innerHeight|{number} windowSizeRatio}
+ */
+CustomGameLoop.prototype.getWindowSizeRatio = function(){
+    return this.windowSizeRatio;
+}
+
+/**
+ * 
+ * @returns {Number|Window.innerWidth}
+ */
+CustomGameLoop.prototype.getWindowWidth = function(){
+    return window.innerWidth;
+}
+
+/**
+ * 
+ * @returns {Window.innerHeight|Number}
+ */
+CustomGameLoop.prototype.getWindowHeight = function(){
+    return window.innerHeight;
+}
+
+/**
+ * draw elements in the elementManager
+ * pass triangle state to the waterSymbolManager and pass scroll bar percentage
+ * to the waterSymbolManager
+ * @param {canvas} g
+ * @returns {undefined}
+ */
+CustomGameLoop.prototype.draw = function(g){
+    //console.log(this.ElementManager.getTriangleStateE());
+    this.waterSymbolManager.setTriangleState(this.elementManager.getTriangleStateE());
+    this.waterSymbolManager.setPercentage(this.elementManager.getScrollPercentage());
+    this.elementManager.draw(g);
+}
+// &lt;/editor-fold> 
+
+
+
+// &lt;editor-fold desc="ElementManager">
+/**
+ * Manage all elements drawn on the canvas
+ * @returns {ElementManager}
+ * @constructor
+ */
+function ElementManager(){
+    /**
+     * an array that stores all elements that are drawn on canvas
+     * @type {array} elements
+     */
+    this.elements = [];
+    
+    /**
+     * default: 0, percentage of where slider is located between two year marks
+     * @type {number} scrollPercentage
+     */
+    this.scrollPercentage = 0;
+    
+    /**
+     * default:1, different state represent where triangle slider is located
+     * for example, state 1 is between 1985 and 1995
+     * @type {number} triangleStateE
+     */
+    this.triangleStateE = 1;
+    
+    /**
+     * true if triangle slider is moving
+     * @type {boolean} triangleMove
+     */
+    this.triangleMove = false;
+}
+
+/**
+ * push element into elements array
+ * @param {type} element
+ * @returns {undefined}
+ */
+ElementManager.prototype.addElement = function(element){
+    this.elements.push(element);
+}
+
+/**
+ * called only when the element is the triangleFlag 
+ * update triangle state according to its location, pass the percentage value
+ * to this.scrollPercentage and pass the triangle state value to 
+ * this.triangleStateE
+ * @param {type} element
+ * @param {vector} position
+ * @returns {undefined}
+ */
+ElementManager.prototype.setScrollPercentage = function(element, position){
+    var nPosition = position.clone();
+    element.updateYearForWaterSymbol(nPosition);
+    
+    this.scrollPercentage = element.getScrollBarPercentage();
+    this.triangleStateE = element.getTriangelState();
+
+}
+
+/**
+ * 
+ * @returns {Number|{number} scrollPercentage}
+ */
+ElementManager.prototype.getScrollPercentage = function(){
+    return this.scrollPercentage;
+}
+
+/**
+ * 
+ * @returns {{number} triangleStateE|Number}
+ */
+ElementManager.prototype.getTriangleStateE = function(){
+    
+    return this.triangleStateE;
+}
+
+/**
+ * when triangle slider moves, set this.triangleMove true
+ * @returns {undefined}
+ */
+ElementManager.prototype.TriangleMove = function(){
+     //console.log("hi");
+    this.triangleMove = true;
+}
+
+/**
+ * when triangle slider stops moving, set this.triangleMove false
+ * @returns {undefined}
+ */
+ElementManager.prototype.triangleStill = function(){
+    this.triangleMove = false;
+}
+
+/**
+ * 
+ * @returns {{boolean} triangleMove|Boolean}
+ */
+ElementManager.prototype.getTriangleMove = function(){
+    return this.triangleMove;
+}
+
+/**
+ * draw every element in the elements array on canvas
+ * @param {canvas} g
+ * @returns {undefined}
+ */
+ElementManager.prototype.draw = function(g){
+    for (var i=0; i &lt; this.elements.length; i++) {
+        
+        
+        this.elements[i].draw(g);
+    }
+}
+
+/**
+ * traverse through all the elements in array, find the element that is hit, 
+ * return the element if that element is hittest true
+ * @param {vector} mouse/pointer position
+ * @returns {element|Boolean}
+ */
+ElementManager.prototype.getElementAtPosition = function(p){
+    for (var i=0; i &lt; this.elements.length; i++) {
+        if (typeof this.elements[i].hitTest === "function") { //test if hitTest function exists
+            
+            if (this.elements[i].hitTest(p)) {
+                
+                return this.elements[i];
+         
+            }   
+        }
+    }
+    return false;
+}
+// &lt;/editor-fold>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Element.html">Element</a></li><li><a href="ElementManager.html">ElementManager</a></li><li><a href="GameLoop.Settings.html">Settings</a></li><li><a href="initialize.html">initialize</a></li><li><a href="Point.html">Point</a></li><li><a href="Pointer_move.html">move</a></li><li><a href="PointerManager.html">PointerManager</a></li><li><a href="randomColor.html">randomColor</a></li><li><a href="Resource.html">Resource</a></li><li><a href="StateData_setAbbreviation.html">setAbbreviation</a></li><li><a href="StateDataManager.html">StateDataManager</a></li><li><a href="waterSymbol.html">waterSymbol</a></li><li><a href="WaterSymbolManager.html">WaterSymbolManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BackgroundImage">BackgroundImage</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Circle">Circle</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#CustomGameLoop">CustomGameLoop</a></li><li><a href="global.html#DataBox">DataBox</a></li><li><a href="global.html#distance">distance</a></li><li><a href="global.html#DraggableElement">DraggableElement</a></li><li><a href="global.html#DraggableElement2">DraggableElement2</a></li><li><a href="global.html#fillColor">fillColor</a></li><li><a href="global.html#functionMark">functionMark</a></li><li><a href="global.html#GameLoop">GameLoop</a></li><li><a href="global.html#graph">graph</a></li><li><a href="global.html#graphState">graphState</a></li><li><a href="global.html#HitTestableElement">HitTestableElement</a></li><li><a href="global.html#HitTestableElement2">HitTestableElement2</a></li><li><a href="global.html#id">id</a></li><li><a href="global.html#isActive">isActive</a></li><li><a href="global.html#isButton">isButton</a></li><li><a href="global.html#isFlag">isFlag</a></li><li><a href="global.html#lineChartRatio">lineChartRatio</a></li><li><a href="global.html#Pointer">Pointer</a></li><li><a href="global.html#position">position</a></li><li><a href="global.html#Rectangle">Rectangle</a></li><li><a href="global.html#scrollBar">scrollBar</a></li><li><a href="global.html#setupScenario">setupScenario</a></li><li><a href="global.html#Shape">Shape</a></li><li><a href="global.html#Shape2">Shape2</a></li><li><a href="global.html#stateAbbreviation">stateAbbreviation</a></li><li><a href="global.html#StateData">StateData</a></li><li><a href="global.html#stateName">stateName</a></li><li><a href="global.html#strokeColor">strokeColor</a></li><li><a href="global.html#strokeThickness">strokeThickness</a></li><li><a href="global.html#text">text</a></li><li><a href="global.html#textColor1985">textColor1985</a></li><li><a href="global.html#textColor1995">textColor1995</a></li><li><a href="global.html#textColor2000">textColor2000</a></li><li><a href="global.html#textColor2005">textColor2005</a></li><li><a href="global.html#textColor2010">textColor2010</a></li><li><a href="global.html#Triangle">Triangle</a></li><li><a href="global.html#windowHeight">windowHeight</a></li><li><a href="global.html#windowWidth">windowWidth</a></li><li><a href="global.html#yearData">yearData</a></li><li><a href="global.html#zoom">zoom</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Dec 17 2015 23:14:28 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
