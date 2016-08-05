@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Stanford Map</title>
+<Style>
+
+#Frame{
+	border:10px solid #C34A2C;
+	position:absolute;
+	top:50%;
+	left:40%;
+	transform:translate(-50%,-50%);
+	width:60%;
+	height:80%;
+	overflow:hidden;
+	
+}
+#mapFrame{
+	/*position:absolute;
+	left:0px;
+	top:0px;
+	width:100%;
+	height:100%;
+	 overflow:hidden; */
+	/*border: 2px red solid;*/
+	
+}
+
+#navigation{
+	position:absolute;
+	right:10%;
+	top:10%;
+	width:16%;
+	height:40%;
+	/*border: 1px blue solid;*/
+	
+}
+#seal{
+	position:absolute;
+	right:10%;
+	top:45%;
+	width:16%;
+	height:40%;
+	background:url("seal.gif");
+	background-size:100%;
+	background-repeat:no-repeat;
+	opacity:0.8;
+}
+#Plus{
+	position:absolute;
+	height:15%;
+	width:18%;
+	left:25%;
+	top:5%;
+}
+#Minus{
+	position:absolute;
+	left:55%;
+	top:5%;
+	height:15%;
+	width:18%;
+}
+#Up{
+	position:absolute;
+	width:15%;
+	height:12%;
+	top:30%;
+	left:40%;
+}
+#Left{
+	position:absolute;
+	width:15%;
+	height:12%;
+	top:45%;
+	left:20%;
+}
+#Right{
+	position:absolute;
+	width:15%;
+	height:12%;
+	top:45%;
+	left:60%;
+}
+#Down{
+	position:absolute;
+	width:15%;
+	height:12%;
+	top:60%;
+	left:40%;
+}
+
+</Style>
+
+</head>
+<body>
+
+ <div id="Frame"> 
+<div id="mapFrame" style="position:absolute; top:0px; left:0px; width:5000px; height:8000px; cursor:auto;"> 
+<img  id='map' name="MapP" src='map-s.gif' alt='photo' />
+</div>
+</div>
+<!--  
+<div><textarea id="Test"  rows="6" cols="6"  ></textarea></div>
+<div><textarea id="Test2"  rows="6" cols="6"  ></textarea> </div>-->
+<!--  <input type="button" id="b1" value=" click me" onclick="search();"/></div> -->
+<div id="navigation">
+<div id="zoom">
+<img id="Plus" name="plusSign" src="plus.png" alt="plus" onclick="zoomIn();">
+<img id="Minus" name="minusSign" src="minus.png" alt="minus" onclick="zoomOut();">
+</div>
+<div id="upA">
+<img id="Up" name="upSign" src="up.png" alt="up" onclick="up();">
+</div>
+<div id="leftRight">
+<img id="Left" name="leftSign" src="left.png" alt="left" onclick="left1();">
+<img id="Right" name="RightSign" src="right.png" alt="right" onclick="right();">
+</div>
+<div id="downA">
+<img id="Down" name="downSign" src="down.png" alt="down" onclick="down();">
+
+</div>
+
+</div>
+<div id="seal">
+
+</div>
+<!--  <div id="asa">
+<img id="random" name="asds" src="leftArrow.png" onclick="left1();" >
+</div> -->
+
+<script>
+
+var frame=document.getElementById("Frame");
+
+window.addEventListener('resize', resize, false);
+
+
+function resize(){
+Frame.style.width=(window.innerWidth)*0.6+"px";
+Frame.style.height=(window.innerHeight)*0.8+"px";
+
+}
+function getBoxHeight() {
+	//var box = document.getElementById("Frame");
+	//return parseInt(box.style.height);
+	return parseInt((window.innerHeight)*0.8);
+}
+
+function getBoxWidth() {
+	//var box = document.getElementById("Frame");
+	//return parseInt(box.style.width);
+	return parseInt((window.innerWidth)*0.6);
+}
+
+function getBoxTop() {
+	var box = document.getElementById("Frame");
+	//return parseInt(box.style.top);
+	return parseInt(box.style.top+(window.innerHeight)*0.1);
+}
+
+function getBoxLeft() {
+	var box = document.getElementById("Frame");
+	//return parseInt(box.style.left);
+	return parseInt(box.style.left+ (window.innerWidth)*0.1);
+}
+
+function inBox(x,y) {
+	return (x >= getBoxLeft() && x <= getBoxLeft() + getBoxWidth()
+				&& y >= getBoxTop() && y <= getBoxTop() + getBoxHeight());
+}
+/// DRAGGING FUNCTIONS
+//for real dragging, you'll want to track the distance between where the
+//mouse button is going down and the actual corner of the box
+
+var isDragging = false;
+var left;
+var top1;
+var x1;
+var x2;
+var y1;
+var y2;
+var x3;
+var y3;
+var k=parseInt(3);
+var a;
+var b;
+function preloadImage(url)
+{
+    var img=new Image();
+    img.src=url;
+}
+preloadImage("map-xl.gif");
+preloadImage("map-l.gif");
+preloadImage("map-m.gif");
+preloadImage("map-s.gif");
+
+function handleMouseDown(evt) {
+	if (inBox(evt.clientX,evt.clientY)) {
+		var box = document.getElementById("mapFrame");
+		isDragging = true;
+		left=parseInt(box.style.left);
+		//var top=parseInt(box.style.right);
+		//left=getBoxLeft();
+		top1=parseInt(box.style.top);
+		//top=getBoxTop();
+		x1=evt.clientX;
+		y1=evt.clientY;
+		//var lengthL = left.length;
+		//var lengthT = top.length;
+		//left=top.subString(0,lengthL-3);
+		//top = top.substring(0,lengthT-3);
+		
+		evt.preventDefault();
+		//document.getElementById("Test2").value=" top: "+top1;
+	}
+}
+
+function handleMouseUp(evt) {
+	if (isDragging) {
+		var box = document.getElementById("mapFrame");
+		//box.style.left = evt.clientX-(window.innerWidth)*0.1+ "px";
+		//box.style.top = evt.clientY -((window.innerHeight)*0.1)+ "px";
+		x3=evt.clientX;
+		y3=evt.clientY;
+		isDragging = false;	
+		if(x2>=x1 && y3<y1){
+			box.style.left =left+(x2-x1) +"px";
+			box.style.top = top1-(y1-y3) +"px";
+			//document.getElementById("Test").value="y1:"+y1+" y3: "+y3+" top: "+top1;
+		}
+		else if(x2<x1 && y3<y1){
+			box.style.left =left-(x1-x2) +"px";
+			box.style.top = top1-(y1-y3) +"px";
+			//document.getElementById("Test").value="y1:"+y1+" y3: "+y3+" top: "+top1;
+		}
+		else if(x2>=x1 && y3>=y1){
+			box.style.left =left+(x2-x1) +"px";
+			box.style.top = to1p+(y3-y1) +"px";
+			//document.getElementById("Test").value="y1:"+y1+" y3: "+y3+" top: "+top1;
+		}
+		else if(x2<x1 && y3>=y1){
+			box.style.left =left-(x1-x2) +"px";
+			box.style.top = top1+(y3-y1) +"px";
+			//document.getElementById("Test").value="y1:"+y1+" y3: "+y3+" top: "+top1;
+		}
+		box.style.cursor="auto";
+		
+	}
+}
+
+function handleMouseMove(evt) {
+	if (isDragging) {
+		var box = document.getElementById("mapFrame");
+		box.style.cursor="move";
+		x2=evt.clientX;
+		y2=evt.clientY;
+		//box.style.left = evt.clientX-(window.innerWidth)*0.1 + "px";
+		//box.style.top = evt.clientY -((window.innerHeight)*0.1)+ "px";
+		if(x2>=x1 && y2<y1){
+			box.style.left =left+(x2-x1) +"px";
+			//box.style.top = top-(y1-y2) +"px";
+			//box.style.top = evt.clientY -((window.innerHeight)*0.1)+ "px";
+			box.style.top=(top1-(y1-y2))+"px";
+			//document.getElementById("Test").value=box.style.top;
+		}
+		else if(x2<x1 && y2<y1){
+			box.style.left =left-(x1-x2) +"px";
+			//box.style.top = top-(y1-y2) +"px";
+			//box.style.top = evt.clientY -((window.innerHeight)*0.1)+ "px";
+			box.style.top=(top1-(y1-y2))+"px";
+			//document.getElementById("Test").value=box.style.top;
+		}
+		else if(x2>=x1 && y2>=y1){
+			box.style.left =left+(x2-x1) +"px";
+			//box.style.top = top+(y2-y1) +"px";
+			//box.style.top = evt.clientY -((window.innerHeight)*0.1)+ "px";
+			box.style.top=(top1+(y2-y1))+"px";
+			//document.getElementById("Test").value=box.style.top;
+		}
+		else if(x2<x1 && y2>=y1){
+			box.style.left =left-(x1-x2) +"px";
+			//box.style.top = top+(y2-y1) +"px";
+			//box.style.top = evt.clientY -((window.innerHeight)*0.1)+ "px";
+			box.style.top=(top1+(y2-y1))+"px";
+			//document.getElementById("Test").value=box.style.top;
+		}
+		
+		evt.preventDefault();
+	}
+}
+
+function handleDblClick(evt){
+	if (inBox(evt.clientX,evt.clientY)){
+		var box = document.getElementById("mapFrame");
+		//document.getElementById("Test").value="width: "+ ((window.innerWidth)*0.4-evt.clientX)+"left"+box.style.left;
+		//var l = (window.innerWidth)*0.4-evt.clientX;
+		//document.getElementById("Test2").value="left:"+(box.style.left+((window.innerWidth)*0.4-evt.clientX));
+
+		
+		a = box.style.left;
+		var la=a.length-2;
+		a=a+"";
+		var q=a.substring(0,la);
+		//document.getElementById("Test2").value="left:"+q;
+		//var lengthT = top.length;
+		//left=top.subString(0,lengthL-3);
+		//top = top.substring(0,lengthT-3);
+		var lN=parseInt(q);
+		b=box.style.top;
+		var lb=b.length-2;
+		b=b+"";
+		var p=b.substring(0,lb);
+		var tN=parseInt(p);
+		box.style.left = lN+((window.innerWidth)*0.4-evt.clientX)+"px";
+		box.style.top = tN+((window.innerHeight)*0.5 -evt.clientY)+"px";
+		//document.getElementById("Test2").value="left:"+box.style.left+"right: "+box.style.top;
+		evt.preventDefault();	
+}
+	}
+
+/// SETUP FUNCTIONS
+
+document.addEventListener("mousedown",handleMouseDown,false);
+document.addEventListener("mouseup",handleMouseUp,false);
+document.addEventListener("mousemove",handleMouseMove,false);
+document.addEventListener("dblclick",handleDblClick,false);
+
+function up(){
+	var box = document.getElementById("mapFrame");
+	box.style.top=parseInt(box.style.top)+(window.innerHeight)*0.5+"px";
+}
+function down(){
+	var box = document.getElementById("mapFrame");
+	box.style.top=parseInt(box.style.top)-(window.innerHeight)*0.5+"px";
+}
+function right(){
+	var box = document.getElementById("mapFrame");
+
+	box.style.left=parseInt(box.style.left)- (window.innerWidth)*0.5+"px";
+}
+function left1(){
+	//document.getElementById("Test2").value="left:";
+	var box = document.getElementById("mapFrame");
+
+	box.style.left=parseInt(box.style.left)+ (window.innerWidth)*0.5+"px";
+}
+var dimP = [[4084,3164],[3063,2373],[2047,1589],[1283,997]];
+          		
+         	 
+function zoomIn(){
+    
+		if(k>0){
+		var dimP = [[4084,3164],[3063,2373],[2047,1589],[1283,997]];
+		    
+		k=k-1;
+		//document.getElementById("Test").value=" k: "+dimP[k][0]+" k+1: "+dimP[k+1][0] +" /: "+((dimP[k][0])/(dimP[k+1][0]));
+		
+		var w = dimP[k][0]/dimP[k+1][0];
+	
+		var h = dimP[k][1]/dimP[k+1][1];
+		
+		var size=["xl","l","m","s"]; 	
+
+		var box = document.getElementById("mapFrame");
+		//document.getElementById("Test").value="k:"+k+"left: "+box.style.left;
+		document.MapP.src="map-"+size[k]+".gif";
+		box.style.left=-(w*((window.innerWidth)*0.5+Math.abs(parseInt(box.style.left)))-(window.innerWidth)*0.5)+"px";
+		box.style.top=-(h*((window.innerHeight)*0.5+Math.abs(parseInt(box.style.top)))-(window.innerHeight)*0.5)+"px";
+		//document.getElementById("Test2").value="k:"+k+"left: "+box.style.left;
+		
+		}
+}
+function zoomOut(){
+	if(k<3){
+		var dimP = [[4084,3164],[3063,2373],[2047,1589],[1283,997]];
+		k=k+1;
+		var w = dimP[k][0]/dimP[k-1][0];
+		
+		var h = dimP[k][1]/dimP[k-1][1];
+		var size=["xl","l","m","s"]; 	
+		var box = document.getElementById("mapFrame");
+		//document.getElementById("Test").value="k:"+k+"left: "+box.style.left;
+		document.MapP.src="map-"+size[k]+".gif";
+		box.style.left=-(w*((window.innerWidth)*0.5+Math.abs(parseInt(box.style.left)))-(window.innerWidth)*0.5)+"px";
+		box.style.top=-(h*((window.innerHeight)*0.5+Math.abs(parseInt(box.style.top)))-(window.innerHeight)*0.5)+"px";
+		//document.getElementById("Test2").value="k:"+k+"left: "+box.style.left;
+	}
+}
+
+            	  
+</script>
+</body>
+
+</html>

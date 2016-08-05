@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Stanford Gallery</title>
+<style>
+#photoSection{
+
+/*	width:800px;
+	margin-top:auto;
+	margin-bottom:auton;
+	margin-left:auto;
+	margin-right:auto;
+	padding:20px;
+	
+	
+	transform:translate(-50%,-50%);
+	*/
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+
+	}
+
+#caption {
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	padding: 10px;
+	box-sizing: border-box;
+	color: white;
+	font-size: 14pt;
+	font-family: sans-serif;
+	background-color: #008800;
+	opacity: 0.5;
+
+}
+#forwardOverlay{
+	/* border: 1px solid black;*/
+	position:absolute;
+	top: 0px;
+	right: 0px;
+	width:50%;
+	height:100%;
+
+}
+#backwardOverlay{
+	/*border: 1px solid black;*/
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	width:50%;
+	height:100%;
+	
+}
+#rightA{
+	position:absolute;
+	right:10px;
+	top:50%;		
+}
+#leftA{
+	position:absolute;
+	left:10px;
+	top:50%;		
+}
+#arrowR{
+
+	width:50px;
+	height:50px;
+	opacity: 0;
+	
+}
+#arrowL{
+
+	width:50px;
+	height:50px;
+	opacity: 0;
+	
+}
+</style>
+</head>
+<body>
+<div id="photoSection">
+<img  id='photo' name="photoSlide" src='memchu.jpg' alt='photo' />
+<div id="caption">
+Stanford Memorial Church - the church used to have an 80' bell tower, which fell in the 1906 earthquake.
+</div>
+
+<div id="forwardOverlay" onclick="forward();" onmouseover="right();" onmouseout="rightOut();" ></div>
+<div id="backwardOverlay" onclick="backward();" onmouseover="left();"onmouseout="leftOut();" ></div>
+
+
+<div id="rightA"><img  id='arrowR' name="ArrowR" src='rightArrow2.png' alt='photo'onclick="forward();"onmouseover="right();" onmouseout="rightOut();" /></div>
+<div id="leftA"><img  id='arrowL' name="ArrowL" src='leftArrow2.png' alt='photo'onclick="backward();" onmouseover="left();"onmouseout="leftOut();"/></div>
+  
+</div>
+<!--  
+<div><textarea id="Test"  rows="2" cols="2"  ></textarea>
+<input type="button" id="b1" value=" click me" onclick="search();"/></div>     -->
+<script>
+"use strict";
+
+var photoArray = [
+		{filename: "memchu.jpg",
+		 caption: "Stanford Memorial Church - the church used to have an 80' bell tower, which fell in the 1906 earthquake."},
+		{filename: "quad.jpg",
+		 caption: "The Stanford Quad"},
+		{filename: "hoop.jpg",
+		 caption: "The <i>Red Hoop Fountain</i> with Green Library in the background."},
+		{filename: "memorial-court.jpg",
+		 caption: "Memorial Court (in the front of the Quad) with Rodin's <i>Burghers of Calais</i> statues."},
+		{filename: "gates.jpg",
+		 caption: "The Gates Building - home of Stanford Computer Science."},
+		{filename: "stone-river.jpg",
+		 caption: "The Stone River statue near the Cantor Arts Center (Stanford's own art museum)."},
+	];
+function search(){
+document.getElementById("Test").value="sss";
+}
+var i=0;
+function forward(){
+	if(i<5){
+	i=i+1;
+	}
+	else{
+		i=0;
+	}
+	document.photoSlide.src=photoArray[i].filename;
+	var cap="<style='position:absolute; bottom:0px; left:0px; padding: 10px; box-sizing: border-box; color: white; font-size: 14pt; font-family: sans-serif; background-color: #008800; opacity: 0.5;'>"+photoArray[i].caption;
+	document.getElementById("caption").innerHTML=cap;
+	
+}
+function backward(){
+	if(i>0){
+		
+	i=i-1;
+	}
+	else i=5;
+	document.photoSlide.src=photoArray[i].filename;
+	var hi="<style='position:absolute; bottom:0px; left:0px; padding: 10px; box-sizing: border-box; color: white; font-size: 14pt; font-family: sans-serif; background-color: #008800; opacity: 0.5;'>"+photoArray[i].caption;
+	document.getElementById("caption").innerHTML=hi;
+	
+}
+var Photo=document.getElementById("photo");
+
+window.addEventListener('resize', resize, false);
+
+
+function resize(){
+Photo.style.width=(window.innerWidth)/3*2+"px";
+Photo.style.height=(window.innerHeight-10)+"px";
+//document.getElementById("forwarOverlay").style.width=(window.innerWidth)/3+"px";
+//document.getElementById("forwarOverlay").style.height=(window.innerHeight-10)+"px";
+//document.getElementById("backwardOverlay").style.width=(window.innerWidth)/3+"px";
+//document.getElementById("backwardOverlay").style.height=(window.innerHeight-10)+"px";
+
+};
+
+function right(){
+	var arrow=document.getElementById("arrowR");
+	arrow.style.opacity="1";
+}
+function rightOut(){
+	var arrow=document.getElementById("arrowR");
+	arrow.style.opacity="0";	
+}
+function left(){
+	var arrow=document.getElementById("arrowL");
+	arrow.style.opacity="1";
+}
+function leftOut(){
+	var arrow=document.getElementById("arrowL");
+	arrow.style.opacity="0";	
+}
+</script>
+
+</body>
+</html>

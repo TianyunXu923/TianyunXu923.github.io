@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SAT Chart</title>
+<style>
+*{
+	font-family:sans-serif;
+}
+table,th{
+	border: 1px solid grey;
+	border-collapse: collapse;
+	padding: 3px;
+	align:middle;
+	}
+#l{
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 3px;
+}
+th{
+	background-color:black;
+	color:white;
+	
+}
+#leftChart{
+	float:left;
+	width:400px;
+}
+#rightChart{
+	float:left;
+	width:400px;
+}
+#rightTable{
+	margin-bottom: 10px;
+}
+#textB{
+	padding:3px;
+}
+#MTuition{
+	font-size:15px;	
+}
+#MHSAT{
+	font-size:15px;
+}
+#MLSAT{
+	font-size:15px;
+}
+#note{
+	font-size:12px;
+	padding-bottom:7px;
+}
+.odd{
+	background-color:#EEE;
+}
+
+</style>
+</head>
+<body>
+<h1 id="TopHead">Bay Area Colleges and Universities</h1>
+<div>
+<div id="leftChart">
+
+<table class="leftTable">
+<tr>
+		<th>Name</th>
+		<th>SAT High</th>
+		<th>SAT Low</th>
+		<th>Tuition</th>
+	</tr>
+	<tr>
+		<td id="l">Stanford</td>
+		<td id="l">1570</td>
+		<td id="l">1380</td>
+		<td id="l">44757</td>
+	</tr>
+	<tr class="odd">
+		<td id="l">UC Berkeley</td>
+		<td id="l">1500</td>
+		<td id="l">1250</td>
+		<td id="l">13844</td>
+	</tr>
+	<tr>
+		<td id="l">UC Santa Cruz</td>
+		<td id="l">1280</td>
+		<td id="l">1000</td>
+		<td id="l">13398</td>
+	</tr>
+	<tr class="odd">
+		<td id="l">SFSU</td>
+		<td id="l">1110</td>
+		<td id="l">880</td>
+		<td id="l">6468</td>
+	</tr>
+	<tr>
+		<td id="l">SJSU</td>
+		<td id="l">1160</td>
+		<td id="l">880</td>
+		<td id="l">9496</td>
+	</tr>
+	<tr class="odd">
+		<td id="l">Sonoma State</td>
+		<td id="l">1090</td>
+		<td id="l">880</td>
+		<td id="l">7276</td>
+	</tr>
+	<tr>
+		<td id="l">CalState East Bay</td>
+		<td id="l">1010</td>
+		<td id="l">800</td>
+		<td id="l">6550</td>
+	</tr>
+	<tr class="odd">
+		<td id="l">USF</td>
+		<td id="l">1270</td>
+		<td id="l">1070</td>
+		<td id="l">41450</td>
+	</tr>
+	<tr>
+		<td id="l">SCU</td>
+		<td id="l">1380</td>
+		<td id="l">1190</td>
+		<td id="l">43812</td>
+	</tr>
+	<tr class="odd">
+		<td id="l">Mills College</td>
+		<td id="l">1250</td>
+		<td id="l">1040</td>
+		<td id="l">42918</td>
+	</tr>
+
+</table>
+</div>
+<div id="rightChart">
+<table id="rightTable">
+<th id="tableHead" colspan="3">Search Criteria</th>
+<tr id="choose">
+	<td id="button"><input type="radio" name="buttonR" id="Public" />Public</td>
+	
+	<td id="button"><input type="radio" name="buttonR" id="Private" />Private</td>
+	<td id="button"><input type="radio" name="buttonR" id="noCare" />Don't Care</td>
+
+</tr>
+<tr>
+<td colspan="2">Maximum Tuition</td>
+<td id="textB" rowspan="2"><input type="text" size="10" name="MTuition" id="MTuition" ></td>
+</tr>
+<tr><td colspan="2" id="note">leave blank for don't care</td>
+</tr>
+<tr>
+<td colspan="2">Maximum High SAT</td>
+<td id="textB" rowspan="2"><input type="text" size="10" name="MHSAT" id="MHSAT"></td>
+</tr>
+<tr><td colspan="2" id="note">leave blank for don't care</td>
+</tr>
+<tr>
+<td colspan="2">Minimum Low SAT</td>
+<td id="textB" rowspan="2"><input type="text" size="10" name="MLSAT" id="MLSAT"></td>
+</tr>
+<tr><td colspan="2" id="note">leave blank for don't care</td>
+</tr>
+
+
+
+</table>
+
+
+<div id="updateB"> <button id="Update" onclick="search()">Update</button></div>
+</div>
+
+</div>
+<script>
+
+
+function search(){
+	var ownership;
+	if(document.getElementById("Public").checked)
+		ownership="public";
+	if(document.getElementById("Private").checked)
+		ownership="private";
+	if(document.getElementById("noCare").checked)
+		ownership=null;
+	var tuition=document.getElementById("MTuition").value;
+	if(tuition!="") tuition=+tuition;
+	var SATH=document.getElementById("MHSAT").value;
+	if(SATH!="") SATH=+SATH;
+
+	var SATL=document.getElementById("MLSAT").value;
+	if(SATL!="") SATL=+SATL;
+	
+	
+	var myArray    = new Array();
+   
+    var univArray = new Array(
+    		{name: "Stanford University", nickname: "Stanford", ownership: "private", SATh: 1570, SATl: 1380, tuition: 44757},
+    		{name: "University of California, Berkeley", nickname: "UC Berkeley", ownership: "public", SATh: 1500, SATl: 1250, tuition: 13844},
+    		{name: "University of California, Santa Cruz", nickname: "UC Santa Cruz", ownership: "public", SATh: 1280, SATl: 1000, tuition: 13398},
+    		{name: "San Francisco State University", nickname: "SFSU", ownership: "public", SATh: 1110, SATl: 880, tuition: 6468},
+    		{name: "San Jose State University", nickname: "SJSU", ownership: "public", SATh: 1160, SATl: 880, tuition: 9496},
+    		{name: "Sonoma State University", nickname: "Sonoma State", ownership: "public", SATh: 1090, SATl: 880, tuition: 7276},
+    		{name: "California State University, East Bay", nickname: "CalState East Bay", ownership: "public", SATh: 1010, SATl: 800, tuition: 6550, room: 6435},
+    		{name: "University of San Francisco", nickname: "USF", ownership: "private", SATh: 1270, SATl: 1070, tuition: 41450},
+    		{name: "Santa Clara University", nickname: "SCU", ownership: "private", SATh: 1380, SATl: 1190, tuition: 43812},
+    		{name: "Mills College", nickname: "Mills College", ownership: "private", SATh: 1250, SATl: 1040, tuition: 42918}
+    		);
+    
+   
+	
+	
+
+	
+
+	if (SATL != "" && SATH != "") {
+			for (var i = 0; i < 10; i++) {
+				if (univArray[i].SATh <= SATH) {
+					if (univArray[i].SATl >= SATL) {
+						if (tuition != "") {
+							if (univArray[i].tuition <= tuition) {
+								if (ownership != null) {
+									if (univArray[i].ownership == ownership) {
+										myArray.push(univArray[i]);
+									}
+								} else
+									myArray.push(univArray[i]);
+							}
+						} else {
+							if (ownership != null) {
+								if (univArray[i].ownership == ownership) {
+									myArray.push(univArray[i]);
+								}
+							} else
+								myArray.push(univArray[i]);
+						}
+					}
+				}
+			}
+		} 
+	else if (SATL != "" && SATH == "") {
+			for (var i = 0; i < 10; i++) {
+				if (univArray[i].SATl >= SATL) {
+					if (tuition == "") {
+						if (ownership != null) {
+							if (univArray[i].ownership == ownership) {
+								myArray.push(univArray[i]);
+							}
+						} else
+							myArray.push(univArray[i]);
+					} else {
+						if (univArray[i].tuition <= tuition) {
+							if (ownership != null) {
+								if (univArray[i].ownership == ownership) {
+									myArray.push(univArray[i]);
+								}
+							} else
+								myArray.push(univArray[i]);
+						}
+					}
+				}
+			}
+		} else if (SATL == "" && SATH != "") {
+			for (var i = 0; i < 10; i++) {
+				if (univArray[i].SATh <= SATH) {
+					if (tuition == "") {
+						if (ownership != null) {
+							if (univArray[i].ownership == ownership) {
+								myArray.push(univArray[i]);
+							}
+						} else
+							myArray.push(univArray[i]);
+					} else {
+						if (univArray[i].tuition <= tuition) {
+							if (ownership != null) {
+								if (univArray[i].ownership == ownership) {
+									myArray.push(univArray[i]);
+								}
+							} else
+								myArray.push(univArray[i]);
+						}
+					}
+
+				}
+			}
+		} else if (SATL == "" && SATH == "" ) {
+			for (var i = 0; i < 10; i++) {
+				if (tuition == "") {
+					if (ownership != null) {
+						if (univArray[i].ownership == ownership) {
+							myArray.push(univArray[i]);
+						}
+					} else
+						myArray.push(univArray[i]);
+				} else {
+					if (univArray[i].tuition <= tuition) {
+						if (ownership != null) {
+							if (univArray[i].ownership == ownership) {
+								myArray.push(univArray[i]);
+							}
+						} else
+							myArray.push(univArray[i]);
+					}
+				}
+
+			}
+		}
+		var length = +myArray.length;
+
+		var myTable = "<table style='border: 1px solid grey;border-collapse: collapse;padding: 3px;'><tr><th style='border: 1px solid grey;border-collapse: collapse;color: white; background-color: black;'>Name</th>";
+		myTable += "<th style=' border: 1px solid grey;border-collapse: collapse;color: white; background-color: black;'>SAT High</th>";
+		myTable += "<th style='border: 1px solid grey;border-collapse: collapse;color: white; background-color: black;'>SAT Low</th>";
+		myTable += "<th style='border: 1px solid grey;border-collapse: collapse;color: white; background-color: black;'>Tuition</th></tr>";
+
+		for (var i = 0; i < length; i++) {
+
+			if (i % 2 != 0) {
+				j = "<td style='border: 1px solid grey;border-collapse: collapse;background-color:#EEE;align:middle;padding:3px;'>"
+			} else {
+				j = "<td style='border: 1px solid grey;border-collapse: collapse;align:middle;padding:3px;'>"
+			}
+			myTable += "<tr>" + j + myArray[i].nickname + "</td>";
+
+			myTable += j + myArray[i].SATh + "</td>";
+			myTable += j + myArray[i].SATl + "</td>";
+			myTable += j + myArray[i].tuition + "</td></tr>";
+		}
+		myTable += "</table>";
+
+		// document.write( myTable);
+		document.getElementById('leftChart').innerHTML = myTable;
+
+	}
+</script>
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
