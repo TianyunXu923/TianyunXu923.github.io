@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Timeseries Chart</title>
 
-  <link rel="stylesheet" href="css/bootstrap.min.css">
   <style>
     body { font: 12px Arial;}
 
@@ -24,6 +23,15 @@
       shape-rendering: crispEdges;
     }
 
+    .compareValueLine {
+          stroke: grey;
+          opacity: 0.6;
+    }
+
+    .tick text {
+      stroke: #737CA1;
+    }
+
   </style>
 
 </head>
@@ -32,10 +40,9 @@
 
 
   <!-- Load JS libraries: jQuery, bootstrap, D3, D3 tooltip -->
-  <script src="jquery.min.js"></script>
-  <script src="bootstrap.min.js"></script>
   <script src="d3.min.js"></script>
   <script src="d3.tip.js"></script>
+  <script src="https://d3js.org/d3-time.v1.min.js"></script>
   <script>
     var margin = {
       top: 30,
@@ -43,74 +50,128 @@
       bottom: 30,
       left: 50
     },
-      width = 800 - margin.left - margin.right,
-      height = 300 - margin.top - margin.bottom
+      width = 900 - margin.left - margin.right,
+      height = 200 - margin.top - margin.bottom
 
     // Parse the date/ time  
     var parseDate = d3.time.format('%Y-%m-%dT%H:%M:%S+%M:%S').parse
+        formatDate = d3.time.format('%m/%e (%a)')
         bisectDate = d3.bisector(function(d) {
           return d.target_date
         }).left
 
-      
+
     // Set the ranges
     var x = d3.time.scale().range([0, width-20])
     var y = d3.scale.linear().range([height, 0])
 
     // Define the axes 
     var xAxis = d3.svg.axis().scale(x)
-          .orient('bottom').ticks(5)
+          .orient('bottom').ticks(10)
 
     var yAxis = d3.svg.axis().scale(y)
-          .orient('left').ticks(5)
+          .orient('left').ticks(10)
 
-    // Define the line
+    // Define the line                  ****
     var valueline = d3.svg.line()
         .x(function(d) { return x(d.target_date); })
-        .y(function(d) { return y(d.revenue); })      
+        .y(function(d) { return y(d.revenue); })   
+
+    // compare line
+    var compareValueLine = d3.svg.line()
+        .x(function(d) { return x(d.chartDate); })
+        .y(function(d) { return y(d.revenue); })       
 
     // Adds the svg canvas
     var svg = d3.select('#chart')
           .append('svg')
-          .attr('width', width+margin.left + margin.right)
-          .attr('height', height + margin.top + margin.bottom)
+          .attr('width', width+margin.left + margin.right+80)
+          .attr('height', height + margin.top + margin.bottom+20)
           .append('g')
-          .attr('transform', 'translate(70'+',' + margin.top+')')
+          .attr('transform', 'translate(70, 50)')
 
-    var lineSvg = svg.append('g')
-
+    // ****      
+    var lineSvg = svg.append('g')  
+    var comparelineSvg = svg.append('g')   
+    // ****
     var focus = svg.append('g')
-                  .style('display', 'none')      
+                  .style('display', 'none')               
 
-    // Get the data    
+    // Get the data    *****
     d3.json('data.json', function(erro, data){
-      console.log(data)
       data = data.data
+      var dataOriginal = data
+      // first day of the selected date range
+      var start = parseDate(data[0].target_date)
       data.forEach(function(d){
-        console.log(parseDate(d.target_date))
+        // console.log(parseDate(d.target_date))
         d.target_date = parseDate(d.target_date)
         d.revenue = Number(d.revenue)
       })
 
-    // scale the range of the data
+    // scale the range of the data ***
     x.domain(d3.extent(data, function(d){ return d.target_date}))
     y.domain([0, d3.max(data, function(d) {return d.revenue })])
+    var maxValue = d3.max(data, function(d) {return d.revenue })
 
-    // Add the valueline path
-    lineSvg.append('path')
-      .attr('class', 'line')
-      .attr('d', valueline(data))  
+    // append the x line 
+    focus.append('line')
+        .attr('class', 'x')
+        .style('stroke', 'grey')
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 0.5)
+        .attr('y1', 0)
+        .attr('y2', height)
 
-    // Add the scatterplot
-    lineSvg.selectAll('dot')
-        .data(data)
-        .enter().append('circle') 
-        .attr('r', 2)
-        .style('fill', 'black')
-        .attr('cx', function(d) { 
-          // console.log(d)
-          return x(d.target_date)})
-        .attr('cy', function(d) { return y(d.revenue)})
+    // append the y line  ***
+    focus.append('line')
+      .attr('class', 'y')
+      .style('stroke', 'grey')
+      .style('stroke-dasharray', '3,3')
+      .style('opacity', 0.5)
+      .attr('x1', width)
+      .attr('x2', width)  
+
+    // append the circle at the intersection ***
+    focus.append('circle')
+      .attr('class', 'y')
+      .style('fill', '#7A95D2')
+      .style('stroke', 'steelblue')
+      .style('stroke-width', 2)
+      .attr('r', 5)
+
+    // for comparison line: 
+    focus.append('line')
+      .attr('class', 'y2')
+      .style('stroke', 'grey')
+      .style('stroke-dasharray', '3, 3')
+      .style('opacity', 0.5)
+      .attr('x1', width)
+      .attr('x2', width)   
+
+    // // for comparison circle
+    // focus.append('circle')
+    //   .attr('class', 'y2')
+    //   .style('fill', '#7A95D2')
+    //   .style('stroke', 'steelblue')  
+    //   .style('stroke-width', 2)
+    //   .attr('r', 5)
+
+
+    // append the rectangle to capture mouse 
+    svg.append('rect')
+      .attr('width', width)
+      .attr('height', height)
+      .style('fill', 'none')
+      .style('pointer-events', 'all')
+      .on('mouseover', function() {
+        focus.style('display', null);
+      })  
+      .on('mouseout', function() {
+        focus.style('display', 'none');
+      })
+      .on('mousemove', mousemove)
+
 
     // Add the X Axis
     svg.append('g')
@@ -118,73 +179,150 @@
       .attr('transform', 'translate(0,'+height+')')
       .call(xAxis)
 
+      
     // Add the Y Axis
     svg.append('g')
       .attr('class', 'y axis')
+      .attr('id', 'originalYAxis')
       .call(yAxis) 
 
-    // append the x line
-    focus.append('line')
-        .attr('class', 'x')
-        .style('stroke', 'blue')
-        .style('stroke-dasharray', '3,3')
-        .style('opacity', 0.5)
-        .attr('y1', 0)
-        .attr('y2', height)
+    // Add the valueline path ***
+    lineSvg.append('path')
+      .attr('class', 'line')
+      .attr('id', 'originalLine')
+      .attr('d', valueline(data)) 
 
-    // append the y line
-    focus.append('line')
-      .attr('class', 'y')
-      .style('stroke', 'blue')
-      .style('stroke-dasharray', '3,3')
-      .style('opacity', 0.5)
-      .attr('x1', width)
-      .attr('x2', width)
+    // Add the scatterplot ***
+    lineSvg.selectAll('dot')
+        .data(data)
+        .enter().append('circle')
+        .attr('id', 'linePoint') 
+        .attr('r', 4)
+        .style('stroke', 'steelblue')
+        .style('stroke-width', '2')
+        .style('fill', 'white')
+        .attr('cx', function(d) { 
+          return x(d.target_date)})
+        .attr('cy', function(d) { return y(d.revenue)})
 
-    // append the circle at the intersection
-    focus.append('circle')
-      .attr('class', 'y')
-      .style('fill', 'none')
-      .style('stroke', 'blue')
-      .attr('r', 4)
+    // for comparison x input
+    d3.json('data2.json', function(erro, data) {
+      data2 = data.data
+      // first day of compared dataset
+      var compareFirstDay = parseDate(data2[0].target_date)
+      var differenceDay = d3.timeDay.count(compareFirstDay, start)
 
-    // append the rectangle to capture mouse
-    svg.append('rect')
-      .attr('width', width)
-      .attr('height', height)
-      .style('fill', 'none')
-      .style('pointer-events', 'all')
-      .on('mouseover', function() {
-        focus.style('display', null)
-      })  
-      .on('mouseout', function() {
-        focus.style('display', 'none')
+      // in data3, it stores dataset with updated date
+      var data3 = {'data':[], 'summary': []}
+      data2.forEach(function(d){
+        d.target_date = parseDate(d.target_date)
+        d.revenue = Number(d.revenue)
+        var updateDate = d3.timeDay.offset(d.target_date, differenceDay)
+        var addJson = {}
+        addJson['target_date'] = d.target_date
+        addJson['revenue'] = d.revenue
+        addJson['chartDate'] =updateDate
+        data3.data.push(addJson)
       })
-      .on('mousemove', mousemove)
+
+      var maxCompare = d3.max(data3.data, function(d) {return d.revenue})
+      // update Y axis
+      if (maxCompare > maxValue) {
+        y.domain([0, maxCompare])
+        // remove the original Y axis
+        svg.selectAll('#originalYAxis').remove()
+        // append the new Y axis
+        svg.append('g')
+        .attr('class', 'y axis')
+        .attr('id', 'updateYAxis')
+        .call(yAxis) 
+
+        svg.selectAll('#originalLine').remove()
+        // Add the valueline path ***
+        lineSvg.append('path')
+          .attr('class', 'line')
+          .attr('id', 'updateLine')
+          .attr('d', valueline(dataOriginal)) 
+
+        svg.selectAll('#linePoint').remove()
+          // Add the scatterplot ***
+        lineSvg.selectAll('dot')
+          .data(dataOriginal)
+          .enter().append('circle')
+          .attr('id', 'linePoint') 
+          .attr('r', 4)
+          .style('stroke', 'steelblue')
+          .style('stroke-width', '2')
+          .style('fill', 'white')
+          .attr('cx', function(d) { return x(d.target_date)})
+          .attr('cy', function(d) { return y(d.revenue)})  
+
+      } else return null
+
+      comparelineSvg.append('path')
+          .attr('class', 'compareValueLine')
+          .attr('d', compareValueLine(data3.data))
+
+      comparelineSvg.selectAll('dot')
+        .data(data3.data)
+        .enter().append('circle') 
+        .attr('r', 4)
+        .style('stroke', 'grey')
+        .style('stroke-width', '2')
+        .style('fill', 'white')
+        .attr('cx', function(d) { return x(d.chartDate)})
+        .attr('cy', function(d) { return y(d.revenue)})
+
+    })    
+  
+  
+    // append tooltip ***
+    focus.append('rect')
+      .attr('class', 'tooltipRec')
+      .attr('width', 150)
+      .attr('height', 20)
+      .style('fill', 'white')
+      .style('stroke', 'grey')
+      .attr('x', -60)
+      .attr('y', '-3.2em')  
+
+    focus.append('text') 
+      .attr('class', 'tooltips')
+      .style('stroke', 'steelblue')
+      .attr('dx', -50)
+      .attr('dy', '-2em')  
 
     function mousemove() {
       var x0 = x.invert(d3.mouse(this)[0])
           i = bisectDate(data, x0, 1)
-          // console.log(x0)
-          // console.log(i)
           d0 = data[i-1]
           d1 = data[i]
           if(i!= data.length){
             d = x0 - d0.target_date > d1.target_date - x0 ? d1 : d0
+            // console.log(d)
           }
 
       focus.select('circle.y')
           .attr('transform', 'translate('+x(d.target_date)+','+y(d.revenue)+')')
 
       focus.select('.x')
-          .attr('transform', 'translate('+x(d.target_date)+','+y(d.revenue)+')')
-          .attr('y2', height-y(d.revenue))
+          .attr('transform', 'translate('+x(d.target_date)+',0)')
 
       focus.select('.y')
           .attr('transform', 'translate('+width*(-1)+','+y(d.revenue)+')')
           .attr('x2', width+width)
-    }
 
+      focus.select('.y2')
+          .attr('transform', 'translate('+width*(-1)+','+y(d.revenue)+')')
+          .attr('x2', width+width)    
+
+      focus.select('text.tooltips')
+          .attr('transform', 'translate('+x(d.target_date)+','+y(d.revenue)+')')    
+          .text(formatDate(d.target_date)+': '+d.revenue)
+
+      focus.select('.tooltipRec')
+          .attr('transform', 'translate('+x(d.target_date)+','+y(d.revenue)+')')
+    }
 
     })
 
