@@ -3,30 +3,133 @@
 	<head>
 		<title>Maria Xu Personal Page</title>
 	</head>
+    <style>
+        #main {
+            width: 100%;
+            height: 1800px;
+            background-image: url("/photo/shootingStar.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            /*background-position: center;*/
+        }
+        #left{
+            padding-top: 30px;
+            width: 35%;
+            height: 600px;
+            float: left;
+            /*background-color: #4863A0;*/
+        }
+
+        #selfPortrait {
+            padding-left: 20%;
+        }
+
+        #right{
+            padding-top: 20px;
+            width: 65%;
+            float: left;
+            height: 600px;
+        }
+
+        h1{
+            color: #FFFFF8;
+            text-align: center;
+            padding-top: 30px;
+            font-size: 40px;
+        }
+
+        #selfIntro {
+            width: 55%;
+            color: #FFFBED;
+            font-size: 20px;
+            padding-top: 5px;
+            padding-left: 18%;
+            font-family: serif;
+        }
+
+        #waterUsage{
+            padding-top: 40px;
+            padding-left: 20px;
+            float: left;
+            opacity: 0.8;
+        }
+        #waterUsage:hover {
+            opacity: 1;
+        }
+
+        .projectImg {
+            padding-top: 40px;
+            padding-left: 40px;
+            float: left;
+            opacity: 0.8;
+        }
+
+        .projectImg:hover {
+            opacity: 1;
+        }
+
+        .projectImg2 {
+            padding-top: 120px;
+            padding-left: 40px;
+            float: left;
+            opacity: 0.8;
+        }
+
+        .projectImg2:hover {
+            opacity: 1;
+        }
+
+        #stanfordMap {
+            padding-top: 120px;
+            padding-left: 20px;
+            float: left;
+            opacity: 0.8;
+        }
+
+        #stanfordMap:hover{
+            opacity: 1;
+        }
+
+
+    </style>
 	<body>
-		<nav>
-    		<ul>
-        		<li><a href="/">Home</a></li>
-	        	<!-- <li><a href="/about">About</a></li>
-        		<li><a href="/cv">CV</a></li>
-        		<li><a href="/blog">Blog</a></li> -->
-        		<li><a href="/barChartDayHour/index1.html">AbejaPreparation</a></li>
-        		<!-- <li><a href="/DashboardVisitorPieChart/index.html">Pie Chart</a></li> -->
-        		<li><a href='/Firebase-Study/firebaseTest.html'>Firebase Pokedex</a></li>
-        		<li><a href='/Timeseries-line-chart/index.html'>Timeseries Chart</a></li>
-    		</ul>
-		</nav>
-		<div class="container">
+        <div id="main">
+            <h1>Maria Xu Tianyun </h1>
+            <!-- </div> -->
+        <div id="left">
+            <img src="/photo/selfPortrait.png" id= "selfPortrait" alt="portrait">
+            <ul id="selfIntro">
+                <li>Love front end and UI/UX design</li>
+                <li>Double major in Computer Science and Government</li>
+                <li>A star gazer, rock collector and geology lover.</li>
+            </ul>
+
+        </div>
+        <div id = "right">
+		  <a href="/U.S.-States-Water-Usage-master/index.html"><img src="/photo/waterUsage.png" alt="waterUsage" id="waterUsage" width="270" height="170"></a>
+
+          <a href="/Loco/FoodPage.html"><img src="/photo/loco.png" alt="waterUsage" id="loco" class = "projectImg" width="270" height="170"></a>
+
+          <a href="/planet_earth/layout/index.html"><img src="/photo/natureDisaster2.png" alt="planetEarth" id="planetEarth" class = "projectImg" width="270" height="170"></a>
+
+          <a href="/Stanford Project/map.html"><img src="/photo/map.png" alt="stanfordMap" id="stanfordMap" width="270" height="170"></a>
+
+          <a href="/barChartDayHour/index1.html"><img src="/photo/barChartDayHour.png" alt="planetEarth" id="planetEarth" class = "projectImg2" width="270" height="170"></a>
+
+          <a href="/Firebase-Study/firebaseTest.html"><img src="/photo/firebase.png" alt="planetEarth" id="planetEarth" class = "projectImg2" width="270" height="170"></a>
+    </div>
+</div>
+		<!-- <div class="container">
     		<div class="blurb">
         		<h1>Hello World!</h1>
 				
     		</div><!-- /.blurb -->
-		</div><!-- /.container -->
+		<!-- /.container -->
 		<footer>
     		<ul>
         		<li><a href="mariaxu923@gmail.com">email</a></li>
         		<li><a href="https://github.com/TianyunXu923">github.com/TianyunXu923</a></li>
 			</ul>
-		</footer>
+		</footer> -->
 	</body>
 </html>
