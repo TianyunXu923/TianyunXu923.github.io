@@ -38,44 +38,41 @@
             font-size: 40px;
         }
 
-        #selfIntro {
+        .selfIntro {
             width: 55%;
-            color: #FFFBED;
+            color: #C5C6DC;
             font-size: 20px;
             padding-top: 5px;
             padding-left: 20%;
             font-family: serif;
         }
 
-        #waterUsage{
-            padding-top: 40px;
-            padding-left: 20px;
-            float: left;
-            opacity: 0.8;
+        a{
+            color: #FFFFC2;
         }
-        #waterUsage:hover {
-            opacity: 1;
+
+        li.category ,
+        p.category { 
+           text-align: -webkit-left;
+           font-size: 25px;
+           color:#C8FFFF;
+           font-family: serif;     
         }
 
         .projectImg {
-            padding-top: 40px;
-            padding-left: 40px;
+            padding-top: 80px;
+            padding-left: 50px;
             float: left;
             opacity: 0.8;
         }
 
-        .projectImg2 {
-            padding-top: 40px;
-            padding-left: 20px;
-            float: left;
-            opacity: 0.8;
-        }
-
-        .projectImg:hover,
-        .projectImg2:hover {
+        .projectImg:hover {
             opacity: 1;
         }
 
+        .firstRow {
+            padding-top: 40px;
+        }
 
     </style>
 	<body>
@@ -84,31 +81,35 @@
             <!-- </div> -->
         <div id="left">
             <img src="/photo/selfPortrait.png" id= "selfPortrait" alt="portrait">
-            <ul id="selfIntro">
-                <li>Love front end and UI/UX design</li>
-                <li>Double major in Computer Science and Government</li>
+            <ul class="selfIntro">
+                <li>Love front end and UI/UX design.</li>
+                <li>Double major in Computer Science and Government.</li>
                 <li>A stargazer, rock collector and geology lover.</li>
+                <li>Check out projects information and code on my <a href="https://github.com/TianyunXu923" target="_blank">Github</a>.</li>
             </ul>
 
         </div>
         <div id = "right">
-		  <a href="/U.S.-States-Water-Usage-master/index.html" target="_blank"><img src="/photo/waterUsage.png" alt="waterUsage" id="waterUsage" class = "projectImg" width='230' height='160'></a>
+        <li class="category"><p>Projects</p></li>
+    
+		  <a href="/U.S.-States-Water-Usage-master/index.html" target="_blank"><img src="/photo/waterUsage.png" alt="waterUsage" id="waterUsage" class = "projectImg firstRow" width='210' height='140'> </a>
+          
+ 
+          <a href="/Loco/FoodPage.html" target="_blank"><img src="/photo/loco.png" alt="waterUsage" id="loco" class = "projectImg firstRow" width='210' height='140' ></a>
 
-          <a href="/Loco/FoodPage.html" target="_blank"><img src="/photo/loco.png" alt="waterUsage" id="loco" class = "projectImg" width='230' height='160' ></a>
+          <a href="/planet_earth/layout/index.html" target="_blank"><img src="/photo/natureDisaster2.png" alt="planetEarth" id="planetEarth" class = "projectImg firstRow" width='210' height='140'></a>
 
-          <a href="/planet_earth/layout/index.html" target="_blank"><img src="/photo/natureDisaster2.png" alt="planetEarth" id="planetEarth" class = "projectImg" width='230' height='160'></a>
+          <a href="/Stanford Project/map.html" target="_blank"><img src="/photo/map.png" alt="stanfordMap" id="stanfordMap" class="projectImg" width='210' height='140'></a>
 
-          <a href="/Stanford Project/map.html" target="_blank"><img src="/photo/map.png" alt="stanfordMap" id="stanfordMap" class="projectImg2" width='230' height='160'></a>
+          <a href="/barChartDayHour/index1.html" target="_blank"><img src="/photo/barChartDayHour.png" alt="planetEarth" id="planetEarth" class = "projectImg" width='210' height='140'></a>
 
-          <a href="/barChartDayHour/index1.html" target="_blank"><img src="/photo/barChartDayHour.png" alt="planetEarth" id="planetEarth" class = "projectImg" width='230' height='160'></a>
+          <a href="/Firebase-Study/firebaseTest.html" target="_blank"><img src="/photo/firebase.png" alt="firebase" id="firebase" class = "projectImg" width='210' height='140'></a>
 
-          <a href="/Firebase-Study/firebaseTest.html" target="_blank"><img src="/photo/firebase.png" alt="firebase" id="firebase" class = "projectImg" width='230' height='160'></a>
+          <a href="/Timeseries-line-chart/index.html" target="_blank"><img src="/photo/timeseriesChart.png" alt="timeseriesChart" id="timeseriesChart" class="projectImg" width='210' height='140'></a>
 
-          <a href="/Timeseries-line-chart/index.html" target="_blank"><img src="/photo/timeseriesChart.png" alt="timeseriesChart" id="timeseriesChart" class="projectImg2" width='230' height='160'></a>
+          <a href="/planet_earth/layout2/main2.html" target="_blank"><img src="/photo/natureDesign.png" alt="natureDesign" id="natureDesign" class = "projectImg" width='210' height='140'></a>
 
-          <a href="/planet_earth/layout2/main2.html" target="_blank"><img src="/photo/natureDesign.png" alt="natureDesign" id="natureDesign" class = "projectImg" width='230' height='160'></a>
-
-          <a href="/Stanford Project/gallery.html" target="_blank"><img src="/photo/gallery.png" alt="gallery" id="gallery" class = "projectImg" width='230' height='160'></a>
+          <a href="/Stanford Project/gallery.html" target="_blank"><img src="/photo/gallery.png" alt="gallery" id="gallery" class = "projectImg" width='210' height='140'></a>
     </div>
 </div>
 		<!-- <div class="container">
