@@ -83,6 +83,19 @@
           top: 850px;
 
         }
+
+        .quote {
+          top: 1100px;
+          left: 14%;
+          position: absolute;
+        }
+
+        #quote {
+          color: white;
+          font-size: 28px;
+          text-align: center;
+          font-family: -webkit-pictograph;
+        }
     </style>
 	<body>
     <!-- <div id='container'>
@@ -127,12 +140,14 @@
           <a href="/Stanford Project/gallery.html" target="_blank"><img src="/photo/gallery.png" alt="gallery" id="gallery" class = "projectImg" width='210' height='140'></a>
         </div>
       </div>
-
+        <div class='quote'>
+          <p id='quote'>"If you wish to make an apple pie from scratch, you must first invent the universe."<br><br> - Carl Sagan, Cosmos</p>
+        </div> 
     </div>
-    <div >
-
-    </div>
+   
 	
+    <!-- See Licence.md, here implemented sketch.js  -->
+   <!--  Copyright (C) 2013 Justin Windle. http://soulwire.co.uk -->
     <script src="sketch.js"></script>
     <script>
         
@@ -194,7 +209,7 @@
 
         var MAX_PARTICLES = 220;
         // var COLOURS = [ '#69D2E7', '#A7DBD8', '#E0E4CC', '#F38630', '#FA6900', '#FF4E50', '#F9D423' ];
-        var COLOURS = [ '#C2DFFF', '#BDEDFF', '#FFFFCC', '#FEFCFF', '#FFFF64', '#5070FF', '#9DFFF2', '#FFE4F1' ];
+        var COLOURS = [ '#C2DFFF', '#BDEDFF', '#FFFFCC', '#FEFCFF', '#FFFF64', '#5070FF', '#9DFFF2', '#FFD0DD' ];
 
 
         var particles = [];
