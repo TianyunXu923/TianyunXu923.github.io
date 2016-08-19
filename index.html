@@ -154,7 +154,7 @@
                 this.wander = 0.15;
                 this.theta = random( TWO_PI );
                 this.drag = 0.92;
-                this.color = '#fff';
+                this.color = '#D3E5F5';
 
                 this.x = x || 0.0;
                 this.y = y || 0.0;
@@ -192,11 +192,11 @@
         // Example
         // ----------------------------------------
 
-        var MAX_PARTICLES = 280;
+        var MAX_PARTICLES = 220;
         // var COLOURS = [ '#69D2E7', '#A7DBD8', '#E0E4CC', '#F38630', '#FA6900', '#FF4E50', '#F9D423' ];
-        var COLOURS = [ '#69D2E7', '#A7DBD8', '#E0E4CC', '#F38630', '#FA6900', '#FF4E50', '#F9D423' ];
+        var COLOURS = [ '#C2DFFF', '#BDEDFF', '#FFFFCC', '#FEFCFF', '#FFFF64', '#5070FF', '#9DFFF2', '#FFE4F1' ];
 
-        
+
         var particles = [];
         var pool = [];
 
@@ -222,14 +222,14 @@
                 pool.push( particles.shift() );
 
             particle = pool.length ? pool.pop() : new Particle();
-            particle.init( x, y, random( 1, 30 ) );
+            particle.init( x, y, random( 1, 20 ) );
 
-            particle.wander = random( 0.5, 2.0 );
+            particle.wander = random( 0.5, 10.0 );
             particle.color = random( COLOURS );
             particle.drag = random( 0.9, 0.99 );
 
             theta = random( TWO_PI );
-            force = random( 2, 8 );
+            force = random( 1, 8 );
 
             particle.vx = sin( theta ) * force;
             particle.vy = cos( theta ) * force;
