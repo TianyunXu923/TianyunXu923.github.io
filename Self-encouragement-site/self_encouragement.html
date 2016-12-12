@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>You can do it!</title>
+<style>
+#main {
+    width:100%;
+    height: 600px;
+    display: block;
+    position: relative;
+}
+
+#main::after {
+  content: "";
+  background: url(background.jpg);
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+}
+
+#sentence {
+    font-size: 45px;
+    text-align: center;
+    padding-top:10%;
+}
+
+#button {
+    position: relative;
+    width:30px;
+    left: 46%;
+    padding-top: 20px;
+
+}
+#author {
+    position: relative;
+    margin-left: 84%;
+    padding-top: 20%;
+}
+
+p{
+    font-style: italic;
+}
+</style>
+</head>
+
+<body>
+<div id="main">
+    <div id="sentence">
+
+    </div>
+    <div id="button">
+        <button type = "button" onclick = "encouragement()" style="font-size: 20px;">YES!</button>
+    </div>
+    <div id="author">
+        <p>Made by Maria Xu in 2016.</p>
+    </div>
+</div>
+</body>
+
+
+<script>
+document.getElementById("sentence").innerHTML = "I am strong!"
+function encouragement() {
+    var adjective = ["strong", "adaptable", "adventurous", "affable", "affectionate", "agreeable", "ambitious", "amiable", "amusing", "amicable", "brave", "bright", "broad-minded", "calm", "careful", "charming", "communicative", "compassionate", "considerate", "courageous", "courteous", "creative", "decisive", "determined", "diligent", "easygoing", "energetic", "enthusiastic", "fearless", "fabulous", "friendly", "funny", "generous", "gentle", "great", "hard-working", "helpful", "honest", "humorous", "imaginative", "independent", "intellectual", "intelligent", "inventive", "kind", "loving", "optimistic", "passionate", "patient", "persistent", "pioneering", "powerful", "rational", "reliable", "confident", "self-disciplined", "sincere", "thoughtful", "tough", "understanding", "warmhearted", "resilient", "happy", "wonderful", "enough", "deserving", "wonderful", "excellent", "cute", "lovable", "loved", "capable"]
+
+    var list_size = adjective.length
+
+    var random_num = Math.floor((Math.random()*list_size))
+
+    var sentence = "I am " + adjective[random_num] + "!"
+    //console.log(random_num)
+    //console.log(sentence)
+    document.getElementById("sentence").innerHTML = sentence
+    //return sentence
+}
+
+</script>
+
+</html>
